@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from zipfile import ZipFile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from generate_project import generate, validate_name
+from generate_project import generate, validate_name, PREFIX
 
 class GeneratorTests(unittest.TestCase):
     def test_rejects_injection_and_invalid_identifiers(self):
@@ -21,7 +21,7 @@ class GeneratorTests(unittest.TestCase):
             self.assertIn('Acme/keycloak/realm-acme.json', names)
             self.assertFalse(any('/obj/' in p or '/bin/' in p or p.endswith('/.env') or '.user' in p for p in names))
             sln = archive.read('Acme/Acme.sln').decode()
-            self.assertNotIn('Static.', sln)
+            if PREFIX != 'Acme': self.assertNotIn(PREFIX + '.', sln)
             self.assertIn('Acme.API', sln)
             self.assertIn('namespace Acme.', archive.read('Acme/Acme.Application/ConfigureServices.cs').decode())
             self.assertIn('static class', archive.read('Acme/Acme.Application/ConfigureServices.cs').decode())

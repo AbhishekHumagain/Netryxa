@@ -7,9 +7,10 @@ from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 ROOT = Path(__file__).resolve().parents[1]
+PREFIX = next(ROOT.glob("*.sln")).stem
 # Explicit allowlist: unreviewed local files can never silently enter a public download.
-PROJECTS = {p.name for p in ROOT.glob("Static.*") if p.is_dir()}
-ROOT_FILES = {"Static.sln", "Directory.Packages.props", "global.json", "nuget.config",
+PROJECTS = {p.name for p in ROOT.glob(f"{PREFIX}.*") if p.is_dir()}
+ROOT_FILES = {f"{PREFIX}.sln", "Directory.Packages.props", "global.json", "nuget.config",
               "Dockerfile", "docker-compose.yml", ".dockerignore", ".editorconfig",
               ".gitignore", ".env.example", "README.md", "LICENSE", "CONTRIBUTING.md",
               "SECURITY.md", "common.proto", ".gitlab-ci.yml"}
@@ -25,7 +26,7 @@ RESERVED = {"static", "class", "namespace", "public", "private", "internal", "pr
 def validate_name(name: str) -> str:
     if (not re.fullmatch(r"[A-Z][A-Za-z0-9]{1,49}", name) or name.lower() in RESERVED
             or re.fullmatch(r"(?:COM|LPT)[0-9]", name, re.I)):
-        raise ValueError("Use 2–50 letters/digits, starting with an uppercase letter; reserved names are disallowed.")
+        raise ValueError("Use 2-50 letters/digits, starting with an uppercase letter; reserved names are disallowed.")
     return name
 
 def source_files(root: Path):
@@ -45,7 +46,7 @@ def source_files(root: Path):
 
 def rename(value: str, name: str) -> str:
     # Word boundaries preserve framework members such as IsStatic and StaticFiles.
-    value = value.replace("Static", name).replace("Use" + name + "Files", "UseStaticFiles")
+    value = value.replace(PREFIX, name).replace("Use" + name + "Files", "UseStaticFiles")
     return value
 
 def transform(value: str, name: str) -> str:
@@ -58,13 +59,13 @@ def generate(name: str, root: Path = ROOT) -> bytes:
     output = io.BytesIO()
     with ZipFile(output, "w", ZIP_DEFLATED) as archive:
         for path, rel in source_files(root):
-            dest = str(rel).replace("Static", name).replace("static", name.lower())
+            dest = str(rel).replace(PREFIX, name).replace(PREFIX.lower(), name.lower())
             data = path.read_bytes()
-            if path.suffix not in {".png", ".ico"}:
+            if path.suffix not in {".png", ".ico", ".py"}:
                 try:
                     content = transform(data.decode("utf-8-sig"), name)
                     if path.suffix in {".json", ".yml", ".yaml"} or path.name == ".env.example":
-                        content = re.sub(r"\bstatic\b", name.lower(), content)
+                        content = re.sub(r"\b" + re.escape(PREFIX.lower()) + r"\b", name.lower(), content)
                     data = content.encode("utf-8")
                 except UnicodeDecodeError:
                     raise ValueError(f"Unexpected non-UTF8 template file: {rel}")

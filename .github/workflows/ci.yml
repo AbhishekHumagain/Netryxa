@@ -32,7 +32,8 @@ jobs:
         run: |
           python3 tools/generate_project.py Acme --output artifacts/Acme.zip
           python3 -m zipfile -e artifacts/Acme.zip /tmp/renamed
-          dotnet build /tmp/renamed/Acme/Acme.sln -c Release --configfile /tmp/renamed/Acme/nuget.config
+          dotnet build /tmp/renamed/Acme/Acme.sln -c Release --configfile /tmp/renamed/Acme/nuget.config -p:RestoreDisableParallel=true
+          python3 -m unittest discover -s /tmp/renamed/Acme/tools/tests -v
       - name: Validate Compose
         run: |
           cp .env.example .env
