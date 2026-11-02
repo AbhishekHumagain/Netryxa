@@ -34,6 +34,15 @@ jobs:
           python3 -m zipfile -e artifacts/Acme.zip /tmp/renamed
           dotnet build /tmp/renamed/Acme/Acme.sln -c Release --configfile /tmp/renamed/Acme/nuget.config -p:RestoreDisableParallel=true
           python3 -m unittest discover -s /tmp/renamed/Acme/tools/tests -v
+      - name: Smoke-test generated API
+        run: |
+          cd /tmp/renamed/Acme
+          cp .env.example .env
+          Database__InitializeOnStartup=false ASPNETCORE_ENVIRONMENT=Development dotnet Acme.API/bin/Release/net10.0/Acme.API.dll > /tmp/generated-api.log 2>&1 &
+          api_pid=$!
+          trap 'kill "$api_pid" 2>/dev/null || true' EXIT
+          curl --fail --retry 15 --retry-delay 1 --retry-connrefused http://localhost:5200/health/live
+          curl --fail http://localhost:5200/openapi/all.json > /dev/null
       - name: Validate Compose
         run: |
           cp .env.example .env

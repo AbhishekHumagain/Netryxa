@@ -58,6 +58,6 @@ dotnet run --project tests/Static.RegressionTests -c Release
 python3 -m unittest discover -s tools/tests -v
 ```
 
-GitHub Actions builds, runs behavioral/generator checks, generates and compiles `Acme`, validates Compose, and builds the Docker image. High/critical NuGet advisories fail restore. Dependabot checks packages, Actions, and Docker weekly. GitLab mirror CI no longer references missing identity/gateway deployments or private feeds.
+GitHub Actions builds, runs behavioral/generator checks, generates, compiles, and smoke-tests `Acme`, validates Compose, and builds the Docker image. High/critical NuGet advisories fail restore. Dependabot checks packages, Actions, and Docker weekly. GitLab mirror CI no longer references missing identity/gateway deployments or private feeds.
 
 To publish under [AbhishekHumagain/Netryxa](https://github.com/AbhishekHumagain/Netryxa), use the reviewed source checkout, enable Actions and private vulnerability reporting, and optionally enable GitHub's Template repository setting. Portal deployment requires the existing portfolio checkout and a same-origin reverse proxy to the standalone download service. See [deployment instructions](docs/PORTAL.md).

@@ -22,4 +22,4 @@ The service is separate from the application API so a database/Keycloak outage d
 
 Local check: run the service, then open `http://localhost:8090/api/boilerplate/download?name=MyProject`. For portal UI preview, serve `portal/` with a static server; downloads require the same-origin reverse proxy above.
 
-GitHub publication: create/use the named repository, push the reviewed source, enable Actions and private vulnerability reporting, and set the repository as a Template repository. The CI workflow publishes a sanitized source archive artifact; tag publishing requires the release job to pass the full validation workflow. The portal does not need the GitHub template toggle because it uses the same source generator directly.
+GitHub publication: create/use the named repository, push the reviewed source, enable Actions and private vulnerability reporting, and set the repository as a Template repository. The CI workflow publishes a sanitized source archive artifact; create release tags only after the full validation workflow passes. The portal does not need the GitHub template toggle because it uses the same source generator directly.
