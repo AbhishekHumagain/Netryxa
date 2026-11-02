@@ -13,15 +13,12 @@ using Static.EntityFrameworkCore.UnitOfWork;
 using Static.Helper.Constants;
 using Static.Identity.Extensions;
 using Static.Infrastructure.Common;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Static.Infrastructure.Persistence;
 using Static.Infrastructure.Persistence.Interceptors;
-using Static.Infrastructure.Persistence.Seed;
 using Static.Infrastructure.Services;
 using Static.Infrastructure.Services.AmazonService;
 using Static.Infrastructure.Services.AmazonService.CloudFront;
@@ -34,7 +31,6 @@ using Static.Infrastructure.Services.RabbitMqService;
 using Static.Infrastructure.Services.CodeExecution;
 using Static.Application.Common.Interfaces;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 
 namespace Static.Infrastructure.Configurations;
@@ -129,16 +125,6 @@ public static class ConfigureServices
 
         services.AddScoped<AuditingSaveChangesInterceptor>();
         services.AddScoped<IStaticDbContext>(provider => provider.GetRequiredService<StaticDbContext>());
-        var seeders = Assembly.GetExecutingAssembly()
-                              .GetTypes()
-                              .Where(t => typeof(ISeeder).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-        foreach (var seeder in seeders)
-        {
-            services.AddScoped(typeof(ISeeder), seeder);
-        }
-
-        services.AddScoped<StaticDbContextInitializer>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IRabbitMQProducer, RabbitMqProducer>();
@@ -232,19 +218,5 @@ public static class ConfigureServices
         #endregion
 
         return services;
-    }
-
-    public static async Task UseInfrastructureServices(this WebApplication app)
-    {
-        if (!app.Configuration.GetValue("Database:InitializeOnStartup", app.Environment.IsDevelopment())) return;
-        using var scope = app.Services.CreateScope();
-        var initializer = scope.ServiceProvider.GetRequiredService<StaticDbContextInitializer>();
-        await initializer.InitialiseAsync();
-        var seeders = scope.ServiceProvider.GetServices<ISeeder>();
-
-        foreach (var seeder in seeders)
-        {
-            await seeder.SeedAsync();
-        }
     }
 }

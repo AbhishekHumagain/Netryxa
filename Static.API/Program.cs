@@ -110,12 +110,10 @@ builder.Services.AddStaticOpenTelemetry(
 var app = builder.Build();
 app.UseExceptionHandler(_ => { });
 
-await app.UseInfrastructureServices();
 app.UseStaticSerilogRequestLogging(builder.Configuration);
 
 app.UseStaticFiles();
 
-if (app.Environment.IsDevelopment()) app.UseMigrationsEndPoint();
 
 app.UseCorsService();
 

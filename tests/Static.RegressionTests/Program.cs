@@ -5,6 +5,10 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Static.Infrastructure.Persistence;
 using Static.API.Middleware.ExceptionHandler;
 using Static.MediatR.Behaviours.Performance;
 using Static.MediatR.Behaviours.Tracing;
@@ -54,6 +58,15 @@ try {
     await tracing.Handle(new Request(), token => { Require(token == cancelled.Token, "Cancellation must propagate"); throw new OperationCanceledException(token); }, cancelled.Token);
     throw new Exception("Expected cancellation");
 } catch (OperationCanceledException) { }
+// Model inspection does not connect to PostgreSQL or create a database.
+using var database = new StaticDbContext(new DbContextOptionsBuilder<StaticDbContext>()
+    .UseNpgsql("Host=localhost;Database=unused_model_check;Username=unused;Password=unused").Options);
+Require(!database.Database.GetMigrations().Any(), "The starter must ship without inherited migrations");
+var model = database.GetService<IDesignTimeModel>().Model;
+var expectedEntities = new[] { "DefaultSetting", "User", "UserLoginAttempt", "UserNotification", "UserNotificationSocket" };
+Require(model.GetEntityTypes().Select(entity => entity.ClrType.Name).Order().SequenceEqual(expectedEntities.Order()),
+    "Only reusable identity/settings/notification models belong in the fresh starter");
+Require(model.GetEntityTypes().All(entity => !entity.GetSeedData().Any()), "The starter model must contain no seed records");
 Console.WriteLine("All regression checks passed.");
 
 static void Require(bool condition, string message) { if (!condition) throw new Exception(message); }

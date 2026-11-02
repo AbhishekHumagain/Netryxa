@@ -38,7 +38,7 @@ jobs:
         run: |
           cd /tmp/renamed/Acme
           cp .env.example .env
-          Database__InitializeOnStartup=false ASPNETCORE_ENVIRONMENT=Development dotnet Acme.API/bin/Release/net10.0/Acme.API.dll > /tmp/generated-api.log 2>&1 &
+          ASPNETCORE_ENVIRONMENT=Development dotnet Acme.API/bin/Release/net10.0/Acme.API.dll > /tmp/generated-api.log 2>&1 &
           api_pid=$!
           trap 'kill "$api_pid" 2>/dev/null || true' EXIT
           curl --fail --retry 15 --retry-delay 1 --retry-connrefused http://localhost:5200/health/live

@@ -2,7 +2,7 @@
 
 A .NET 10 starter by Abhishek Humagain with CQRS, Keycloak authentication, PostgreSQL, validation, transactions, structured errors, and OpenTelemetry. Source is MIT licensed. Dependency licenses apply separately.
 
-**Status:** evolving starter. Existing playground, SRS, WBS, and UML sample modules are still included. See [the architecture audit](docs/ARCHITECTURE-AUDIT.md) for remaining design work and [portal integration](docs/PORTAL.md) for deployment.
+**Status:** fresh database starter with no application migration history, seed data, or inherited Playground/SRS/WBS/UML models. See [the architecture audit](docs/ARCHITECTURE-AUDIT.md) for remaining design work and [portal integration](docs/PORTAL.md) for deployment.
 
 ## Create a project
 
@@ -21,6 +21,21 @@ The ZIP renames solution/project filenames, namespaces, project references, Dock
 Open `http://localhost:5200/swagger` or `/scalar`, and Keycloak at `http://localhost:8080` (development admin: `admin` / `admin`). The API database is on host port 5433. Local Compose is a development stack with demonstration credentials and `start-dev` Keycloak; replace these for deployment.
 
 For native API debugging, start dependencies with `docker compose up -d keycloak-db keycloak static-api-db plantuml-server`, then `dotnet run --project Static.API` from the solution root. Environment variables take precedence over `.env`. Do not commit `.env`.
+
+## Create your database schema
+
+The download contains no migrations, model snapshot, seeders, or sample records. PostgreSQL starts with an empty application database; identity/user and shared notification/settings models remain as reusable building blocks. Add or adapt your own domain models before creating the first migration.
+
+From the solution root, after copying `.env.example` to `.env` and starting PostgreSQL:
+
+```sh
+dotnet new tool-manifest
+dotnet tool install dotnet-ef --version 10.0.10
+dotnet ef migrations add InitialCreate --project Static.Infrastructure --startup-project Static.API --output-dir Migrations
+dotnet ef database update --project Static.Infrastructure --startup-project Static.API
+```
+
+Use your renamed project prefix in these paths after downloading. Commit the resulting migration and snapshot to your own repository. `/health/live` is available before database setup; `/health/ready` checks database connectivity, not whether your application schema has been applied. Existing database volumes are retained; removing source migrations does not alter an existing database.
 
 ## Extend the application
 
@@ -45,7 +60,7 @@ Errors use HTTP 400 for malformed models, 422 for validation, and 500 for unexpe
 
 Set `OpenTelemetry__CollectorEndpoint` to your collector to enable export. CQRS spans use source `Static.MediatR`. Slow requests use full elapsed milliseconds and omit payloads. EF sensitive-data logging is disabled unless explicitly enabled with `Debugging__EnableSensitiveDataLogging=true` outside Production.
 
-Database migration/seeding runs on startup only in Development by default; set `Database__InitializeOnStartup` explicitly when needed. For production, run reviewed migrations separately before rollout. Swagger is Development-only unless `Swagger__Enabled=true`. HTTPS redirection can be enabled with `HttpsRedirection__Enabled=true` when the hosting environment supplies an HTTPS endpoint; configure forwarded headers at your trusted reverse proxy.
+The API never creates, migrates, or seeds the application database at startup. Create and apply your own initial migration as described below. For production, run reviewed migrations separately before rollout. Swagger is Development-only unless `Swagger__Enabled=true`. HTTPS redirection can be enabled with `HttpsRedirection__Enabled=true` when the hosting environment supplies an HTTPS endpoint; configure forwarded headers at your trusted reverse proxy.
 
 The optional local Python runner is disabled. Configure an isolated execution backend before exposing code execution; setting `CodeExecution__EnableUnsafeLocalRunner=true` is only for trusted local experiments.
 

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -36,9 +36,5 @@
     <Folder Include="Services\Shared\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Persistence/Seed/Data/playground-lesson-content.json"
-                      LogicalName="Static.Infrastructure.PlaygroundLessonContent.json" />
-  </ItemGroup>
 
 </Project>

@@ -27,6 +27,12 @@ class GeneratorTests(unittest.TestCase):
             self.assertIn('static class', archive.read('Acme/Acme.Application/ConfigureServices.cs').decode())
             self.assertIn('realm-acme.json', archive.read('Acme/docker-compose.yml').decode())
             self.assertIn('Acme.API.dll', archive.read('Acme/Dockerfile').decode())
+            self.assertFalse(any('/Migrations/' in p or '/Persistence/Seed/' in p for p in names))
+            self.assertFalse(any('/Entities/' + module + '/' in p for p in names for module in ['Playground', 'Srs', 'Wbs']))
+            self.assertNotIn('Acme/Acme.Domain/Entities/UmlDiagram.cs', names)
+            startup = archive.read('Acme/Acme.API/Program.cs').decode()
+            self.assertNotIn('UseInfrastructureServices', startup)
+
 
     def test_unknown_root_files_and_symlinks_are_excluded(self):
         with tempfile.TemporaryDirectory() as temp:
