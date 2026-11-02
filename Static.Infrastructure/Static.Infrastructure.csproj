@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.CloudFront"/>
+    <PackageReference Include="AWSSDK.Lambda"/>
+    <PackageReference Include="AWSSDK.SimpleNotificationService"/>
+    <PackageReference Include="AWSSDK.SQS"/>
+    <PackageReference Include="DotNetEnv"/>
+    <PackageReference Include="Hangfire.AspNetCore"/>
+    <PackageReference Include="Hangfire.Core"/>
+    <PackageReference Include="Hangfire.PostgreSql"/>
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions"/>
+    <PackageReference Include="Microsoft.Extensions.Localization"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="RabbitMQ.Client"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Static.Application\Static.Application.csproj" />
+    <ProjectReference Include="..\Static.Identity\Static.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Adapters\" />
+    <Folder Include="Services\GrpcClientService\" />
+    <Folder Include="Services\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence/Seed/Data/playground-lesson-content.json"
+                      LogicalName="Static.Infrastructure.PlaygroundLessonContent.json" />
+  </ItemGroup>
+
+</Project>

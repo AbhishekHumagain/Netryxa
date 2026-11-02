@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+package ap.static.common;
+
+option csharp_namespace = "Static.Common";
+
+
+message IdRequest {
+    string id = 1;
+}
+
+message GetHealthStatusResponse {
+    string status = 1;
+}
+
+message StatusResponse {
+    bool success = 1;
+    string message = 2;
+}

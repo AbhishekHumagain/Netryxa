@@ -1,0 +1,231 @@
+{
+  "realm": "static",
+  "displayName": "Static LMS",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 30,
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespanEnabled": false,
+  "clientSessionIdleTimeout": 0,
+  "clientSessionMaxLifespan": 0,
+  "roles": {
+    "realm": [
+      {
+        "name": "Student",
+        "description": "Enrolled student \u2014 can access their own profile and assigned content",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "static",
+        "attributes": {}
+      },
+      {
+        "name": "Teacher",
+        "description": "Teaching staff \u2014 can manage content and view student data",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "static",
+        "attributes": {}
+      },
+      {
+        "name": "SchoolLeader",
+        "description": "School leader / admin \u2014 can manage teachers and students",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "static",
+        "attributes": {}
+      },
+      {
+        "name": "SuperAdmin",
+        "description": "Super administrator \u2014 full platform access",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "static",
+        "attributes": {}
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "superadmin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "superadmin@orion.local",
+      "firstName": "Super",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Admin@123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "SuperAdmin",
+        "default-roles-static"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "static-client",
+      "name": "Static API Client",
+      "description": "Confidential client used by the Static.API backend service",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${env.KEYCLOAK_CLIENT_SECRET:static-client-secret}",
+      "redirectUris": [
+        "http://localhost:3000/*",
+        "http://localhost:5200/*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "+",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "access.token.lifespan": "300",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "oidc.ciba.grant.enabled": "false"
+      },
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.value": "foo",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "static-client",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "google",
+      "displayName": "Google",
+      "providerId": "google",
+      "enabled": false,
+      "updateProfileFirstLoginMode": "on",
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${env.GOOGLE_CLIENT_ID:CONFIGURE_IN_ADMIN_UI}",
+        "clientSecret": "${env.GOOGLE_CLIENT_SECRET:CONFIGURE_IN_ADMIN_UI}",
+        "defaultScope": "openid profile email",
+        "syncMode": "IMPORT",
+        "hideOnLoginPage": "false",
+        "useJwksUrl": "true",
+        "loginHint": "false",
+        "disableUserInfo": "false"
+      }
+    }
+  ],
+  "identityProviderMappers": [
+    {
+      "name": "google-email",
+      "identityProviderAlias": "google",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "syncMode": "INHERIT",
+        "claim": "email",
+        "user.attribute": "email"
+      }
+    },
+    {
+      "name": "google-first-name",
+      "identityProviderAlias": "google",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "syncMode": "INHERIT",
+        "claim": "given_name",
+        "user.attribute": "firstName"
+      }
+    },
+    {
+      "name": "google-last-name",
+      "identityProviderAlias": "google",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "syncMode": "INHERIT",
+        "claim": "family_name",
+        "user.attribute": "lastName"
+      }
+    },
+    {
+      "name": "google-username",
+      "identityProviderAlias": "google",
+      "identityProviderMapper": "oidc-username-idp-mapper",
+      "config": {
+        "syncMode": "INHERIT",
+        "template": "${CLAIM.email}"
+      }
+    },
+    {
+      "name": "google-default-student-role",
+      "identityProviderAlias": "google",
+      "identityProviderMapper": "hardcoded-role-idp-mapper",
+      "config": {
+        "syncMode": "INHERIT",
+        "role": "Student"
+      }
+    }
+  ],
+  "userManagedAccessAllowed": false,
+  "internationalizationEnabled": false,
+  "supportedLocales": [],
+  "defaultLocale": "en",
+  "eventsEnabled": false,
+  "eventsExpiration": 0,
+  "adminEventsEnabled": false,
+  "adminEventsDetailsEnabled": false
+}

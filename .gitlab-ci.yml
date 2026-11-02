@@ -1,0 +1,12 @@
+# Optional mirror CI. GitHub Actions is the primary pipeline.
+image: mcr.microsoft.com/dotnet/sdk:10.0
+stages: [validate]
+validate:
+  stage: validate
+  script:
+    - dotnet restore Static.sln --configfile nuget.config
+    - dotnet build Static.sln -c Release --no-restore
+    - dotnet run --project tests/Static.RegressionTests -c Release
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH

@@ -1,0 +1,46 @@
+name: Validate boilerplate
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore from public feeds
+        run: dotnet restore Static.sln --configfile nuget.config -p:NuGetAuditMode=all -p:WarningsAsErrors=NU1903%3BNU1904
+      - name: Build
+        run: dotnet build Static.sln -c Release --no-restore
+      - name: Regression checks
+        run: dotnet run --project tests/Static.RegressionTests -c Release
+      - name: Generator checks
+        run: python3 -m unittest discover -s tools/tests -v
+      - name: Generate and build a renamed project
+        run: |
+          python3 tools/generate_project.py Acme --output artifacts/Acme.zip
+          python3 -m zipfile -e artifacts/Acme.zip /tmp/renamed
+          dotnet build /tmp/renamed/Acme/Acme.sln -c Release --configfile /tmp/renamed/Acme/nuget.config
+      - name: Validate Compose
+        run: |
+          cp .env.example .env
+          docker compose config --quiet
+      - name: Build container
+        run: docker build --platform linux/amd64 -t netryxa:ci .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: renamed-project-example
+          path: artifacts/Acme.zip
+          retention-days: 7

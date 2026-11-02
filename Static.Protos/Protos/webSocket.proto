@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option csharp_namespace = "Static.Protos";
+
+package ap.static.webSocket;
+
+import "google/protobuf/empty.proto";
+
+service WebSocket {
+  rpc ValidateUserDetail(ValidateUserRequest) returns (ValidateUserResponse);
+}
+
+message ValidateUserResponse {
+  bool isValid = 1;
+  LoginDetailsResponse loginDetail = 2;
+  SchoolDetailsResponse schoolDetail = 3;
+  repeated UserFeaturesEntry features = 4;
+}
+
+message ValidateUserRequest {
+  string deviceId = 1;
+  string schoolId = 2;
+  string userId = 3;
+}
+
+message LoginDetailsResponse {
+  string userId = 1;
+  string fullName = 2;
+  bool isFirstLogin =3;
+  string role = 4;
+  int64 expireInSeconds = 5;
+  string accessToken = 6;
+}
+
+message SchoolDetailsResponse {
+  string schoolId = 1;
+  string schoolName = 2;
+}
+
+message UserFeaturesEntry {
+  string key = 1;
+  repeated string values = 2;
+}

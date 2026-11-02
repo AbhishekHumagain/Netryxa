@@ -1,0 +1,4093 @@
+{
+  "lessons": [
+    {
+      "title": "Classes and Objects",
+      "category": "OOP",
+      "difficulty": "Beginner",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Class",
+            "text": "A **class** is a blueprint. It describes what data an object will hold (attributes) and what it can do (methods). Writing a class does not create anything yet — it only describes it."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Object",
+            "text": "An **object** is an *instance* of a class: a real thing in memory with its own values. `Dog(\"Buddy\")` and `Dog(\"Max\")` are two separate objects built from the same `Dog` class."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Real-world analogy",
+          "data": {
+            "markdown": "Think of an architect's **blueprint** for a house. It is drawn once, but many houses can be built from it.\nEvery house has the same rooms (same *attributes* and *methods*), yet each one has its own paint colour and owner (its own *values*).\n\nIn Python the blueprint is the `class` statement, and each house is an object created by *calling* the class like a function: `Dog(\"Buddy\")`."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Key terms",
+          "data": {
+            "headers": [
+              "Term",
+              "Meaning",
+              "In the Dog example"
+            ],
+            "rows": [
+              [
+                "Class",
+                "Blueprint / template for objects",
+                "class Dog:"
+              ],
+              [
+                "Object",
+                "A concrete instance created from a class",
+                "dog = Dog(\"Buddy\")"
+              ],
+              [
+                "Attribute",
+                "Data stored inside an object",
+                "self.name"
+              ],
+              [
+                "Method",
+                "A function that belongs to a class",
+                "def bark(self):"
+              ],
+              [
+                "Constructor",
+                "Runs automatically when an object is created",
+                "__init__(self, name)"
+              ],
+              [
+                "self",
+                "Refers to the particular object the method is working on",
+                "self.name → Buddy's name"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "Forgetting `self` as the first parameter of a method. `def bark():` raises *TypeError: bark() takes 0 positional arguments but 1 was given* because Python always passes the object in automatically."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "A class is written once; you can create as many objects from it as you like.",
+              "Each object keeps its own attribute values.",
+              "`__init__` sets up a new object's attributes.",
+              "`self` is the object the method was called on."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Image",
+          "title": "From blueprint to objects",
+          "data": {
+            "url": "/playground/oop-classes-objects.svg",
+            "caption": "One Dog class (blueprint) produces three separate Dog objects, each with its own name and breed.",
+            "alt": "Diagram: a Dog class blueprint with arrows to three dog objects named Buddy, Max and Luna"
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass Dog {\n  +name : str\n  --\n  +__init__(name)\n  +bark()\n}\nobject buddy {\n  name = \"Buddy\"\n}\nobject max {\n  name = \"Max\"\n}\nDog <.. buddy : instance of\nDog <.. max : instance of\n@enduml",
+            "caption": "The Dog class and two objects created from it. Each object stores its own name."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "Python OOP Tutorial 1: Classes and Instances",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=ZDa-Z5JzLYM",
+            "caption": "Corey Schafer — classes, instances, __init__ and self."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "tip",
+            "text": "Rule of thumb: nouns in a problem (*Dog, Account, Order*) often become classes; verbs (*bark, deposit, ship*) become methods."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Basic Class",
+          "steps": [
+            {
+              "match": "class Dog:",
+              "title": "Define the blueprint",
+              "explanation": "Python reads the whole `class` block and stores a blueprint called `Dog`. No dog exists yet — nothing inside the methods runs.",
+              "variables": [
+                {
+                  "name": "Dog",
+                  "value": "<class Dog>"
+                }
+              ]
+            },
+            {
+              "match": "dog = Dog(\"Buddy\")",
+              "title": "Create an object",
+              "explanation": "Calling `Dog(\"Buddy\")` creates a brand-new, empty Dog object and immediately calls `__init__` on it.",
+              "predict": "Which method will Python run next?",
+              "answer": "`__init__` — it runs automatically for every new object.",
+              "variables": [
+                {
+                  "name": "Dog",
+                  "value": "<class Dog>"
+                }
+              ]
+            },
+            {
+              "match": "self.name = name",
+              "title": "Initialise the attribute",
+              "explanation": "Inside `__init__`, `self` *is* the new object. This line attaches an attribute `name` with the value `\"Buddy\"` to it.",
+              "variables": [
+                {
+                  "name": "Dog",
+                  "value": "<class Dog>"
+                },
+                {
+                  "name": "self",
+                  "value": "Dog object"
+                },
+                {
+                  "name": "self.name",
+                  "value": "\"Buddy\""
+                }
+              ]
+            },
+            {
+              "match": "dog = Dog(\"Buddy\")",
+              "title": "Store the object in a variable",
+              "explanation": "`__init__` finishes and the new object is returned. The variable `dog` now refers to it.",
+              "variables": [
+                {
+                  "name": "Dog",
+                  "value": "<class Dog>"
+                },
+                {
+                  "name": "dog",
+                  "value": "Dog(name=\"Buddy\")"
+                }
+              ]
+            },
+            {
+              "match": "dog.bark()",
+              "title": "Call a method",
+              "explanation": "`dog.bark()` is shorthand for `Dog.bark(dog)` — Python passes the object in as `self`.",
+              "predict": "What will this line print?",
+              "answer": "Buddy says: Woof!",
+              "variables": [
+                {
+                  "name": "dog",
+                  "value": "Dog(name=\"Buddy\")"
+                }
+              ]
+            },
+            {
+              "match": "print(f\"{self.name} says: Woof!\")",
+              "title": "Read the object's data",
+              "explanation": "`self.name` looks up the `name` attribute on this particular object, so the message uses \"Buddy\".",
+              "output": "Buddy says: Woof!",
+              "variables": [
+                {
+                  "name": "self",
+                  "value": "dog"
+                },
+                {
+                  "name": "self.name",
+                  "value": "\"Buddy\""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Build a Book class",
+          "difficulty": "Easy",
+          "instructions": "Create a `Book` class.\n\n1. `__init__(self, title, author, pages)` stores all three values as attributes.\n2. `describe()` **returns** the text `\"<title> by <author>, <pages> pages\"`.\n3. `is_long()` returns `True` when the book has more than 300 pages, otherwise `False`.\n\nUse **Run** to experiment, then **Run tests** to check your solution.",
+          "starterCode": "class Book:\n    def __init__(self, title, author, pages):\n        # TODO: store title, author and pages on self\n        pass\n\n    def describe(self):\n        # TODO: return \"<title> by <author>, <pages> pages\"\n        pass\n\n    def is_long(self):\n        # TODO: return True when the book has more than 300 pages\n        pass\n\n\n# Experiment here — click Run to see the output\nbook = Book(\"Dune\", \"Frank Herbert\", 412)\nprint(book.describe())\n",
+          "solutionCode": "class Book:\n    def __init__(self, title, author, pages):\n        self.title = title\n        self.author = author\n        self.pages = pages\n\n    def describe(self):\n        return f\"{self.title} by {self.author}, {self.pages} pages\"\n\n    def is_long(self):\n        return self.pages > 300\n",
+          "hints": [
+            "Inside `__init__`, write `self.title = title` — and do the same for author and pages.",
+            "Use an f-string in describe(): `return f\"{self.title} by ...\"`.",
+            "`is_long()` can simply `return self.pages > 300`."
+          ],
+          "testCases": [
+            {
+              "name": "describe() formats the book",
+              "code": "print(Book(\"Dune\", \"Frank Herbert\", 412).describe())",
+              "expectedOutput": "Dune by Frank Herbert, 412 pages"
+            },
+            {
+              "name": "each object keeps its own data",
+              "code": "a = Book(\"A\", \"X\", 10)\nb = Book(\"B\", \"Y\", 20)\nprint(a.title, b.title, a.pages + b.pages)",
+              "expectedOutput": "A B 30"
+            },
+            {
+              "name": "is_long() uses the 300-page rule",
+              "code": "print(Book(\"Short\", \"S\", 120).is_long(), Book(\"Long\", \"L\", 301).is_long())",
+              "expectedOutput": "False True"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which statement best describes a class?",
+          "codeSnippet": null,
+          "options": [
+            "A blueprint that defines attributes and methods",
+            "A single object stored in memory",
+            "A built-in data type like list",
+            "A function that returns a value"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "A class is the template; objects are the things created from it."
+        },
+        {
+          "question": "What does this code print?",
+          "codeSnippet": "class Counter:\n    def __init__(self):\n        self.count = 0\n\na = Counter()\nb = Counter()\na.count += 1\nprint(a.count, b.count)",
+          "options": [
+            "1 1",
+            "1 0",
+            "0 1",
+            "An error"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "`a` and `b` are separate objects, each with its own `count` attribute. Only `a.count` was increased."
+        },
+        {
+          "question": "Inside a method, what does `self` refer to?",
+          "codeSnippet": null,
+          "options": [
+            "The class itself",
+            "The object the method was called on",
+            "The parent class",
+            "The current module"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "`dog.bark()` becomes `Dog.bark(dog)`, so `self` is `dog`."
+        }
+      ]
+    },
+    {
+      "title": "Encapsulation",
+      "category": "OOP",
+      "difficulty": "Beginner",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Encapsulation",
+            "text": "**Encapsulation** means bundling data and the methods that work on it inside one class, and *hiding* the data so it can only be changed through those methods. The class protects its own rules."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Why hide data?",
+          "data": {
+            "markdown": "Imagine a bank account where anyone could write `account.balance = -1_000_000`. Nothing would stop invalid values.\n\nWith encapsulation the balance is **private**, and the only way to change it is through methods such as `deposit()` and `withdraw()`.\nThose methods can check the rules first (*no negative deposits, no overdrafts*).\n\nIn Python a double underscore prefix (`self.__balance`) triggers **name mangling**, which makes the attribute hard to reach from outside the class."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Python access conventions",
+          "data": {
+            "headers": [
+              "Syntax",
+              "Meaning",
+              "Accessible from outside?"
+            ],
+            "rows": [
+              [
+                "self.balance",
+                "Public",
+                "Yes"
+              ],
+              [
+                "self._balance",
+                "Protected by convention (\"internal, please don't touch\")",
+                "Yes, but you shouldn't"
+              ],
+              [
+                "self.__balance",
+                "Private — name-mangled to _ClassName__balance",
+                "Not by its normal name"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "Encapsulation is not about secrecy — it is about **keeping objects valid**. Put the validation inside the methods that change the data."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Keep data and the methods that change it together.",
+              "Make internal data private (`__name`) and expose methods instead.",
+              "Methods like `deposit()` can enforce rules that plain attribute access cannot.",
+              "Getters (`get_balance()`) give read access without allowing writes."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Image",
+          "title": "Encapsulation as a capsule",
+          "data": {
+            "url": "/playground/oop-encapsulation.svg",
+            "caption": "Private data lives inside the object; the outside world only talks to its public methods.",
+            "alt": "Diagram: a capsule containing private balance data, surrounded by public deposit, withdraw and get_balance methods"
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass BankAccount {\n  -__balance : int\n  --\n  +deposit(amount)\n  +withdraw(amount)\n  +get_balance() : int\n}\nnote right of BankAccount\n  \"-\" = private (hidden)\n  \"+\" = public (the only way in)\nend note\n@enduml",
+            "caption": "In UML, `-` marks private members and `+` marks public ones."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "Object-Oriented Programming, Simplified",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=pTB0EiLXUC8",
+            "caption": "Programming with Mosh — the four pillars of OOP, including encapsulation."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Private Attributes",
+          "steps": [
+            {
+              "match": "account = BankAccount(1000)",
+              "title": "Create the account",
+              "explanation": "A new `BankAccount` is created with a starting balance of 1000.",
+              "variables": [
+                {
+                  "name": "account",
+                  "value": "BankAccount"
+                }
+              ]
+            },
+            {
+              "match": "self.__balance = balance",
+              "title": "Store private data",
+              "explanation": "The double underscore makes `__balance` private. Python renames it to `_BankAccount__balance`, so `account.__balance` from outside raises *AttributeError*.",
+              "variables": [
+                {
+                  "name": "account",
+                  "value": "BankAccount"
+                },
+                {
+                  "name": "__balance (private)",
+                  "value": "1000"
+                }
+              ]
+            },
+            {
+              "match": "print(\"Balance:\", account.get_balance())",
+              "title": "Read through a getter",
+              "explanation": "Outside code cannot read `__balance` directly, but the public `get_balance()` method can.",
+              "output": "Balance: 1000",
+              "variables": [
+                {
+                  "name": "__balance (private)",
+                  "value": "1000"
+                }
+              ]
+            },
+            {
+              "match": "account.deposit(500)",
+              "title": "Change data through a method",
+              "explanation": "`deposit()` first checks `amount > 0`, then updates the balance. The rule lives inside the class.",
+              "output": "Balance: 1000",
+              "variables": [
+                {
+                  "name": "__balance (private)",
+                  "value": "1500"
+                }
+              ]
+            },
+            {
+              "match": "print(\"Balance after deposit:\", account.get_balance())",
+              "title": "Confirm the change",
+              "explanation": "The getter now returns the updated value.",
+              "output": "Balance: 1000\nBalance after deposit: 1500",
+              "variables": [
+                {
+                  "name": "__balance (private)",
+                  "value": "1500"
+                }
+              ]
+            },
+            {
+              "match": "account.withdraw(2000)",
+              "title": "Try to break the rules",
+              "explanation": "Someone tries to withdraw more than the account holds.",
+              "predict": "Will the balance go negative?",
+              "answer": "No — withdraw() checks the balance first and refuses.",
+              "output": "Balance: 1000\nBalance after deposit: 1500",
+              "variables": [
+                {
+                  "name": "__balance (private)",
+                  "value": "1500"
+                }
+              ]
+            },
+            {
+              "match": "print(\"Insufficient funds.\")",
+              "title": "The class protects itself",
+              "explanation": "Because the balance can only change through `withdraw()`, the object stays valid: the balance is still 1500.",
+              "output": "Balance: 1000\nBalance after deposit: 1500\nInsufficient funds.",
+              "variables": [
+                {
+                  "name": "__balance (private)",
+                  "value": "1500"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Guarded thermostat",
+          "difficulty": "Medium",
+          "instructions": "Build a `Thermostat` that keeps its temperature **private**.\n\n1. `__init__(self, celsius)` stores the value in a private attribute `__celsius`.\n2. `get_celsius()` returns the stored value.\n3. `get_fahrenheit()` returns `celsius * 9 / 5 + 32`.\n4. `set_celsius(value)` only accepts values of **-273.15 or higher**. For anything lower it prints `Invalid temperature` and leaves the old value unchanged.",
+          "starterCode": "class Thermostat:\n    def __init__(self, celsius):\n        self.celsius = celsius   # TODO: make this private\n\n    def get_celsius(self):\n        return self.celsius\n\n    def get_fahrenheit(self):\n        # TODO: convert to Fahrenheit\n        pass\n\n    def set_celsius(self, value):\n        # TODO: reject values below -273.15\n        self.celsius = value\n\n\nt = Thermostat(20)\nt.set_celsius(-500)\nprint(t.get_celsius())\n",
+          "solutionCode": "class Thermostat:\n    def __init__(self, celsius):\n        self.__celsius = celsius\n\n    def get_celsius(self):\n        return self.__celsius\n\n    def get_fahrenheit(self):\n        return self.__celsius * 9 / 5 + 32\n\n    def set_celsius(self, value):\n        if value < -273.15:\n            print(\"Invalid temperature\")\n            return\n        self.__celsius = value\n",
+          "hints": [
+            "Rename the attribute to `self.__celsius` everywhere inside the class.",
+            "In `set_celsius`, check `if value < -273.15:` before assigning.",
+            "Printing the message and returning early leaves the old value in place."
+          ],
+          "testCases": [
+            {
+              "name": "stores and returns celsius",
+              "code": "t = Thermostat(20)\nprint(t.get_celsius())",
+              "expectedOutput": "20"
+            },
+            {
+              "name": "converts to Fahrenheit",
+              "code": "print(Thermostat(100).get_fahrenheit())",
+              "expectedOutput": "212.0"
+            },
+            {
+              "name": "rejects impossible temperatures",
+              "code": "t = Thermostat(20)\nt.set_celsius(-300)\nprint(t.get_celsius())",
+              "expectedOutput": "Invalid temperature\n20"
+            },
+            {
+              "name": "__celsius is private",
+              "code": "t = Thermostat(5)\nprint(hasattr(t, \"celsius\"), hasattr(t, \"_Thermostat__celsius\"))",
+              "expectedOutput": "False True"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the main purpose of encapsulation?",
+          "codeSnippet": null,
+          "options": [
+            "Hide internal data and control access through methods",
+            "Make code run faster",
+            "Let a class inherit from many parents",
+            "Create many objects at once"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Encapsulation keeps an object valid by forcing changes through methods that enforce the rules."
+        },
+        {
+          "question": "What happens when this code runs?",
+          "codeSnippet": "class Secret:\n    def __init__(self):\n        self.__code = 42\n\ns = Secret()\nprint(s.__code)",
+          "options": [
+            "It prints 42",
+            "It raises AttributeError",
+            "It prints None",
+            "It prints __code"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "`__code` is name-mangled to `_Secret__code`, so `s.__code` does not exist outside the class."
+        },
+        {
+          "question": "What is the best way for outside code to reduce a private balance?",
+          "codeSnippet": null,
+          "options": [
+            "account.__balance -= 10",
+            "Call a method such as account.withdraw(10)",
+            "Delete the attribute and re-create it",
+            "Use a global variable"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "Going through a method lets the class check the rules before changing its data."
+        }
+      ]
+    },
+    {
+      "title": "Inheritance",
+      "category": "OOP",
+      "difficulty": "Beginner",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Inheritance",
+            "text": "**Inheritance** lets a new class (the *child* or *subclass*) reuse the attributes and methods of an existing class (the *parent* or *base class*). The child can add new behaviour or **override** what it inherited."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "The is-a test",
+          "data": {
+            "markdown": "Inheritance models an **is-a** relationship: a `Dog` *is an* `Animal`, a `Car` *is a* `Vehicle`.\n\n```python\nclass Dog(Animal):   # Dog inherits from Animal\n    ...\n```\n\nEverything `Animal` defines (`name`, `__init__`, …) is available on a `Dog` for free.\nIf `Dog` defines a method with the same name as the parent — like `speak()` — the child's version wins. That is called **overriding**."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Key terms",
+          "data": {
+            "headers": [
+              "Term",
+              "Meaning",
+              "Example"
+            ],
+            "rows": [
+              [
+                "Parent / base class",
+                "The class being inherited from",
+                "Animal"
+              ],
+              [
+                "Child / subclass",
+                "The class that inherits",
+                "class Dog(Animal):"
+              ],
+              [
+                "Override",
+                "Redefine an inherited method",
+                "Dog.speak()"
+              ],
+              [
+                "super()",
+                "Call the parent's version of a method",
+                "super().__init__(name)"
+              ],
+              [
+                "isinstance()",
+                "Check if an object is of a class or its parents",
+                "isinstance(dog, Animal) → True"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "Only inherit when the *is-a* sentence is true. \"A Car **has an** Engine\" is composition — store an `Engine` object as an attribute instead of inheriting from it."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Children get the parent's attributes and methods for free.",
+              "Override a method to change behaviour in the child.",
+              "Use `super()` to extend (not replace) the parent's behaviour.",
+              "Prefer composition (has-a) when the is-a test fails."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nabstract class Animal {\n  +name : str\n  --\n  +__init__(name)\n  +speak()\n}\nclass Dog {\n  +speak()\n}\nclass Cat {\n  +speak()\n}\nAnimal <|-- Dog : is-a\nAnimal <|-- Cat : is-a\n@enduml",
+            "caption": "The hollow triangle arrow means \"inherits from\". Dog and Cat both override speak()."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Table",
+          "title": "Inheritance vs composition",
+          "data": {
+            "headers": [
+              "",
+              "Inheritance (is-a)",
+              "Composition (has-a)"
+            ],
+            "rows": [
+              [
+                "Relationship",
+                "Dog is an Animal",
+                "Car has an Engine"
+              ],
+              [
+                "Python syntax",
+                "class Dog(Animal):",
+                "self.engine = Engine()"
+              ],
+              [
+                "UML arrow",
+                "Hollow triangle",
+                "Filled diamond"
+              ],
+              [
+                "Coupling",
+                "Tight — parent changes ripple down",
+                "Loose — parts can be swapped"
+              ]
+            ]
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "Python OOP Tutorial 4: Inheritance — Creating Subclasses",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=RSl87lqOXDE",
+            "caption": "Corey Schafer — subclasses, super() and overriding."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Animal Hierarchy",
+          "steps": [
+            {
+              "match": "class Animal:",
+              "title": "The parent class",
+              "explanation": "`Animal` defines what every animal has: a `name` and a `speak()` method. Its `speak()` raises an error because a generic animal has no sound.",
+              "variables": [
+                {
+                  "name": "Animal",
+                  "value": "<class Animal>"
+                }
+              ]
+            },
+            {
+              "match": "class Dog(Animal):",
+              "title": "A child class",
+              "explanation": "`Dog(Animal)` means Dog inherits everything from Animal. Dog has no `__init__` of its own — it reuses Animal's.",
+              "variables": [
+                {
+                  "name": "Animal",
+                  "value": "<class Animal>"
+                },
+                {
+                  "name": "Dog",
+                  "value": "<class Dog> → Animal"
+                }
+              ]
+            },
+            {
+              "match": "class Cat(Animal):",
+              "title": "Another child",
+              "explanation": "Cat also inherits from Animal and provides its own `speak()`.",
+              "variables": [
+                {
+                  "name": "Dog",
+                  "value": "<class Dog> → Animal"
+                },
+                {
+                  "name": "Cat",
+                  "value": "<class Cat> → Animal"
+                }
+              ]
+            },
+            {
+              "match": "for animal in",
+              "title": "Create the objects",
+              "explanation": "`Dog(\"Buddy\")` looks for `__init__` in Dog, doesn't find it, and uses `Animal.__init__` — inherited behaviour in action.",
+              "predict": "Where does Dog(\"Buddy\") get its __init__ from?",
+              "answer": "From the parent class Animal.",
+              "variables": [
+                {
+                  "name": "animal",
+                  "value": "Dog(name=\"Buddy\")"
+                }
+              ]
+            },
+            {
+              "match": "print(animal.speak())",
+              "title": "Overridden method (Dog)",
+              "explanation": "`animal` is a Dog, so Python finds `Dog.speak()` first. The parent's version is never used.",
+              "output": "Buddy says Woof",
+              "variables": [
+                {
+                  "name": "animal",
+                  "value": "Dog(name=\"Buddy\")"
+                }
+              ]
+            },
+            {
+              "match": "print(animal.speak())",
+              "title": "Overridden method (Cat)",
+              "explanation": "On the second loop `animal` is a Cat, so `Cat.speak()` runs. Same call, different class, different result.",
+              "output": "Buddy says Woof\nWhiskers says Meow",
+              "variables": [
+                {
+                  "name": "animal",
+                  "value": "Cat(name=\"Whiskers\")"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Vehicle family",
+          "difficulty": "Medium",
+          "instructions": "Model vehicles with inheritance.\n\n1. `Vehicle(name, wheels)` stores both values. `describe()` returns `\"<name> has <wheels> wheels\"`.\n2. `Car(name)` inherits from `Vehicle` and always has **4** wheels — call `super().__init__(...)`.\n3. `Bike(name)` inherits from `Vehicle`, has **2** wheels and **overrides** `describe()` to add `\" and a bell\"` to the parent's text.",
+          "starterCode": "class Vehicle:\n    def __init__(self, name, wheels):\n        self.name = name\n        self.wheels = wheels\n\n    def describe(self):\n        return f\"{self.name} has {self.wheels} wheels\"\n\n\nclass Car:          # TODO: inherit from Vehicle\n    def __init__(self, name):\n        pass        # TODO: call super().__init__ with 4 wheels\n\n\nclass Bike:         # TODO: inherit from Vehicle, 2 wheels, override describe()\n    pass\n\n\nprint(Vehicle(\"Unicycle\", 1).describe())\n",
+          "solutionCode": "class Vehicle:\n    def __init__(self, name, wheels):\n        self.name = name\n        self.wheels = wheels\n\n    def describe(self):\n        return f\"{self.name} has {self.wheels} wheels\"\n\n\nclass Car(Vehicle):\n    def __init__(self, name):\n        super().__init__(name, 4)\n\n\nclass Bike(Vehicle):\n    def __init__(self, name):\n        super().__init__(name, 2)\n\n    def describe(self):\n        return super().describe() + \" and a bell\"\n",
+          "hints": [
+            "Write `class Car(Vehicle):` to inherit.",
+            "Inside Car's `__init__`: `super().__init__(name, 4)`.",
+            "Bike's describe() can reuse the parent: `return super().describe() + \" and a bell\"`."
+          ],
+          "testCases": [
+            {
+              "name": "Car has 4 wheels",
+              "code": "print(Car(\"Civic\").describe())",
+              "expectedOutput": "Civic has 4 wheels"
+            },
+            {
+              "name": "Bike overrides describe()",
+              "code": "print(Bike(\"BMX\").describe())",
+              "expectedOutput": "BMX has 2 wheels and a bell"
+            },
+            {
+              "name": "both are Vehicles",
+              "code": "print(isinstance(Car(\"X\"), Vehicle), issubclass(Bike, Vehicle))",
+              "expectedOutput": "True True"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Inheritance models which relationship?",
+          "codeSnippet": null,
+          "options": [
+            "is-a",
+            "has-a",
+            "uses-a",
+            "creates-a"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "A Dog *is an* Animal. \"has-a\" relationships are modelled with composition."
+        },
+        {
+          "question": "What does this code print?",
+          "codeSnippet": "class A:\n    def hello(self):\n        return \"A\"\n\nclass B(A):\n    pass\n\nprint(B().hello())",
+          "options": [
+            "A",
+            "B",
+            "An error",
+            "None"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "B defines nothing, so `hello()` is inherited from A."
+        },
+        {
+          "question": "What does `super().__init__(...)` do in a child class?",
+          "codeSnippet": null,
+          "options": [
+            "Calls the parent class's constructor",
+            "Creates a separate parent object",
+            "Deletes the parent's attributes",
+            "Makes the class abstract"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "It runs the parent's initialisation on the *same* object, so the child doesn't have to repeat it."
+        }
+      ]
+    },
+    {
+      "title": "Polymorphism",
+      "category": "OOP",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Polymorphism",
+            "text": "**Polymorphism** (\"many forms\") means the *same* method call works on objects of *different* classes, and each object responds in its own way. Code can use `shape.area()` without knowing whether `shape` is a circle or a rectangle."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "One call, many behaviours",
+          "data": {
+            "markdown": "A TV remote has one **power** button, yet it works on every brand of TV. You don't care *how* each TV turns on — you just press the button.\n\nIn code:\n\n```python\nfor shape in [Circle(5), Rectangle(4, 6)]:\n    print(shape.area())      # the right area() is chosen automatically\n```\n\nThe loop never checks the type. Adding a `Triangle` later needs **no change** to the loop — only a new class with an `area()` method."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Without vs with polymorphism",
+          "data": {
+            "headers": [
+              "",
+              "if/elif on type",
+              "Polymorphism"
+            ],
+            "rows": [
+              [
+                "Code",
+                "if type(s) == Circle: ... elif ...",
+                "s.area()"
+              ],
+              [
+                "Adding a new shape",
+                "Edit every if/elif chain",
+                "Add one new class"
+              ],
+              [
+                "Where logic lives",
+                "Scattered in callers",
+                "Inside each class"
+              ],
+              [
+                "Risk of bugs",
+                "High — easy to miss a branch",
+                "Low"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "info",
+            "text": "Python uses **duck typing**: \"if it walks like a duck and quacks like a duck, it's a duck\". Objects don't even need a common parent — they just need the method."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Same method name, different behaviour per class.",
+              "Callers depend on the method, not the concrete type.",
+              "New types can be added without changing existing code."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Image",
+          "title": "One call, many forms",
+          "data": {
+            "url": "/playground/oop-polymorphism.svg",
+            "caption": "A single area() call is dispatched to the Circle or Rectangle implementation at runtime.",
+            "alt": "Diagram: one area() call fanning out to Circle.area and Rectangle.area"
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nabstract class Shape {\n  +area()\n}\nclass Circle {\n  +radius\n  +area()\n}\nclass Rectangle {\n  +width\n  +height\n  +area()\n}\nShape <|-- Circle\nShape <|-- Rectangle\n@enduml",
+            "caption": "Both subclasses provide their own area(). Callers only need to know about Shape."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "Object-Oriented Programming, Simplified",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=pTB0EiLXUC8",
+            "caption": "Programming with Mosh — polymorphism is covered with the other three pillars."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Shape Area",
+          "steps": [
+            {
+              "match": "class Shape:",
+              "title": "A common interface",
+              "explanation": "`Shape` promises that every shape has an `area()` method, but doesn't implement it.",
+              "variables": [
+                {
+                  "name": "Shape",
+                  "value": "<class Shape>"
+                }
+              ]
+            },
+            {
+              "match": "class Circle(Shape):",
+              "title": "First form",
+              "explanation": "Circle provides its own `area()` using πr².",
+              "variables": [
+                {
+                  "name": "Circle",
+                  "value": "<class Circle> → Shape"
+                }
+              ]
+            },
+            {
+              "match": "class Rectangle(Shape):",
+              "title": "Second form",
+              "explanation": "Rectangle provides a *different* `area()`: width × height.",
+              "variables": [
+                {
+                  "name": "Circle",
+                  "value": "<class Circle> → Shape"
+                },
+                {
+                  "name": "Rectangle",
+                  "value": "<class Rectangle> → Shape"
+                }
+              ]
+            },
+            {
+              "match": "shapes = [Circle(5), Rectangle(4, 6)]",
+              "title": "Mix different types",
+              "explanation": "A single list holds objects of different classes. They share only the `area()` method.",
+              "variables": [
+                {
+                  "name": "shapes",
+                  "value": "[Circle(r=5), Rectangle(4×6)]"
+                }
+              ]
+            },
+            {
+              "match": "print(f\"{type(shape).__name__} area: {shape.area()}\")",
+              "title": "Same call → Circle.area()",
+              "explanation": "On the first loop `shape` is a Circle, so Python dispatches to `Circle.area()`.",
+              "output": "Circle area: 78.54",
+              "variables": [
+                {
+                  "name": "shape",
+                  "value": "Circle(r=5)"
+                }
+              ]
+            },
+            {
+              "match": "print(f\"{type(shape).__name__} area: {shape.area()}\")",
+              "title": "Same call → Rectangle.area()",
+              "explanation": "The exact same line now dispatches to `Rectangle.area()`. The loop never checked the type.",
+              "predict": "What will the second line print?",
+              "answer": "Rectangle area: 24",
+              "output": "Circle area: 78.54\nRectangle area: 24",
+              "variables": [
+                {
+                  "name": "shape",
+                  "value": "Rectangle(4×6)"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Everyone speaks",
+          "difficulty": "Easy",
+          "instructions": "Create three **unrelated** classes that all have a `speak()` method:\n\n- `Duck().speak()` returns `\"Quack\"`\n- `Robot().speak()` returns `\"Beep boop\"`\n- `Person(name).speak()` returns `\"Hi, I'm <name>\"`\n\nThen write a function `chorus(things)` that calls `speak()` on each item and returns the results joined with `\" | \"`.\n`chorus` must **not** check types — that's the point of polymorphism.",
+          "starterCode": "class Duck:\n    def speak(self):\n        return \"Quack\"\n\n\n# TODO: Robot and Person classes\n\n\ndef chorus(things):\n    # TODO: call speak() on every item and join with \" | \"\n    pass\n\n\nprint(chorus([Duck()]))\n",
+          "solutionCode": "class Duck:\n    def speak(self):\n        return \"Quack\"\n\n\nclass Robot:\n    def speak(self):\n        return \"Beep boop\"\n\n\nclass Person:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return f\"Hi, I'm {self.name}\"\n\n\ndef chorus(things):\n    return \" | \".join(thing.speak() for thing in things)\n",
+          "hints": [
+            "Robot needs only a `speak()` method returning \"Beep boop\".",
+            "Person needs `__init__(self, name)` so speak() can use `self.name`.",
+            "`\" | \".join(t.speak() for t in things)` builds the result in one line."
+          ],
+          "testCases": [
+            {
+              "name": "each class speaks",
+              "code": "print(Duck().speak(), Robot().speak())",
+              "expectedOutput": "Quack Beep boop"
+            },
+            {
+              "name": "chorus works with mixed types",
+              "code": "print(chorus([Duck(), Person(\"Ana\")]))",
+              "expectedOutput": "Quack | Hi, I'm Ana"
+            },
+            {
+              "name": "chorus keeps the order",
+              "code": "print(chorus([Robot(), Robot(), Duck()]))",
+              "expectedOutput": "Beep boop | Beep boop | Quack"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Polymorphism means…",
+          "codeSnippet": null,
+          "options": [
+            "The same method call behaves differently depending on the object's class",
+            "A class can have only one method",
+            "Objects can never share method names",
+            "Variables change type automatically"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "One interface, many implementations."
+        },
+        {
+          "question": "What does this code print?",
+          "codeSnippet": "class Cat:\n    def sound(self): return \"Meow\"\n\nclass Cow:\n    def sound(self): return \"Moo\"\n\nfor a in [Cow(), Cat()]:\n    print(a.sound(), end=\" \")",
+          "options": [
+            "Meow Moo",
+            "Moo Meow",
+            "Moo Moo",
+            "An error"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "The list order is Cow, Cat — each object answers with its own sound()."
+        },
+        {
+          "question": "What is the main benefit of polymorphism?",
+          "codeSnippet": null,
+          "options": [
+            "New types can be added without changing the code that uses them",
+            "Programs use less memory",
+            "Classes are no longer needed",
+            "Methods run in parallel"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Callers depend only on the shared method, so they don't change when new classes appear."
+        }
+      ]
+    },
+    {
+      "title": "Abstraction",
+      "category": "OOP",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Abstraction",
+            "text": "**Abstraction** means exposing *what* an object does while hiding *how* it does it. An **abstract class** defines methods that subclasses must implement, and cannot be instantiated itself."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Driving a car",
+          "data": {
+            "markdown": "To drive you only need the steering wheel, pedals and gear stick — the **interface**. You don't need to know how fuel injection works.\n\nIn Python, `abc.ABC` and `@abstractmethod` let you write that interface:\n\n```python\nclass Payment(ABC):\n    @abstractmethod\n    def pay(self, amount): ...\n```\n\nEvery concrete payment type (credit card, PayPal, …) must implement `pay()`. Code that takes payments only talks to `Payment`."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Abstract vs concrete classes",
+          "data": {
+            "headers": [
+              "",
+              "Abstract class",
+              "Concrete class"
+            ],
+            "rows": [
+              [
+                "Can create objects?",
+                "No — TypeError",
+                "Yes"
+              ],
+              [
+                "Has abstract methods?",
+                "Yes (@abstractmethod)",
+                "No — all implemented"
+              ],
+              [
+                "Purpose",
+                "Defines the contract",
+                "Provides the implementation"
+              ],
+              [
+                "Example",
+                "Payment",
+                "CreditCard, PayPal"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "If a subclass forgets to implement even one abstract method, Python refuses to create it: *TypeError: Can't instantiate abstract class ... with abstract method pay*."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Abstraction hides implementation details behind a simple interface.",
+              "Use `ABC` + `@abstractmethod` to define a contract.",
+              "Abstract classes can't be instantiated; subclasses must fill in the gaps."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nabstract class Payment {\n  {abstract} +pay(amount)\n}\nclass CreditCard {\n  +pay(amount)\n}\nclass PayPal {\n  +pay(amount)\n}\nPayment <|-- CreditCard\nPayment <|-- PayPal\nclass Checkout\nCheckout --> Payment : uses\n@enduml",
+            "caption": "Checkout depends only on the abstract Payment, never on a concrete gateway."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "Object-Oriented Programming, Simplified",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=pTB0EiLXUC8",
+            "caption": "Programming with Mosh — abstraction alongside the other pillars."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "tip",
+            "text": "Abstraction and encapsulation work together: abstraction decides *what* to expose, encapsulation *protects* the rest."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Abstract Payment",
+          "steps": [
+            {
+              "match": "from abc import ABC, abstractmethod",
+              "title": "Import the tools",
+              "explanation": "`ABC` is the base for abstract classes; `@abstractmethod` marks methods subclasses must implement.",
+              "variables": []
+            },
+            {
+              "match": "class Payment(ABC):",
+              "title": "Define the contract",
+              "explanation": "`Payment` says every payment method can `pay(amount)`, but gives no implementation.",
+              "predict": "What would Payment() do?",
+              "answer": "Raise TypeError — abstract classes can't be instantiated.",
+              "variables": [
+                {
+                  "name": "Payment",
+                  "value": "<abstract class Payment>"
+                }
+              ]
+            },
+            {
+              "match": "class CreditCard(Payment):",
+              "title": "First implementation",
+              "explanation": "CreditCard fulfils the contract by implementing `pay()`.",
+              "variables": [
+                {
+                  "name": "CreditCard",
+                  "value": "<class CreditCard> → Payment"
+                }
+              ]
+            },
+            {
+              "match": "class PayPal(Payment):",
+              "title": "Second implementation",
+              "explanation": "PayPal implements the same method differently. Callers won't notice the difference.",
+              "variables": [
+                {
+                  "name": "CreditCard",
+                  "value": "<class CreditCard> → Payment"
+                },
+                {
+                  "name": "PayPal",
+                  "value": "<class PayPal> → Payment"
+                }
+              ]
+            },
+            {
+              "match": "gateway.pay(100)",
+              "title": "Use the interface (credit card)",
+              "explanation": "The loop only knows it has *some* Payment. It calls `pay(100)`; CreditCard does the work.",
+              "output": "Paid $100 via Credit Card.",
+              "variables": [
+                {
+                  "name": "gateway",
+                  "value": "CreditCard()"
+                }
+              ]
+            },
+            {
+              "match": "gateway.pay(100)",
+              "title": "Use the interface (PayPal)",
+              "explanation": "Same call, different hidden implementation.",
+              "output": "Paid $100 via Credit Card.\nPaid $100 via PayPal.",
+              "variables": [
+                {
+                  "name": "gateway",
+                  "value": "PayPal()"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Abstract shapes",
+          "difficulty": "Medium",
+          "instructions": "1. Create an abstract class `Shape(ABC)` with an **abstract** method `area()` and a normal method `describe()` that returns `\"<ClassName> with area <area>\"` (use `type(self).__name__`).\n2. `Square(side)` implements `area()` as side × side.\n3. `Triangle(base, height)` implements `area()` as `0.5 * base * height`.\n\n`Shape()` itself must not be creatable.",
+          "starterCode": "from abc import ABC, abstractmethod\n\n\nclass Shape:   # TODO: make this abstract\n    def area(self):\n        pass\n\n    def describe(self):\n        return f\"{type(self).__name__} with area {self.area()}\"\n\n\n# TODO: Square and Triangle\n",
+          "solutionCode": "from abc import ABC, abstractmethod\n\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n\n    def describe(self):\n        return f\"{type(self).__name__} with area {self.area()}\"\n\n\nclass Square(Shape):\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\n\nclass Triangle(Shape):\n    def __init__(self, base, height):\n        self.base = base\n        self.height = height\n\n    def area(self):\n        return 0.5 * self.base * self.height\n",
+          "hints": [
+            "`class Shape(ABC):` and put `@abstractmethod` above `def area(self):`.",
+            "Square and Triangle inherit from Shape, so they get describe() for free.",
+            "Triangle's area: `return 0.5 * self.base * self.height`."
+          ],
+          "testCases": [
+            {
+              "name": "describe() uses the subclass",
+              "code": "print(Square(3).describe())",
+              "expectedOutput": "Square with area 9"
+            },
+            {
+              "name": "Triangle area",
+              "code": "print(Triangle(4, 5).area())",
+              "expectedOutput": "10.0"
+            },
+            {
+              "name": "Shape is abstract",
+              "code": "try:\n    Shape()\n    print(\"created\")\nexcept TypeError:\n    print(\"cannot instantiate\")",
+              "expectedOutput": "cannot instantiate"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What happens when you create an object from a class that still has an abstract method?",
+          "codeSnippet": null,
+          "options": [
+            "A TypeError is raised",
+            "It works, but the method returns None",
+            "Python silently skips the method",
+            "The class becomes static"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Python enforces the contract at creation time."
+        },
+        {
+          "question": "Abstraction focuses on…",
+          "codeSnippet": null,
+          "options": [
+            "What an object does, hiding how it does it",
+            "Copying code between classes",
+            "Making every attribute public",
+            "Speeding up loops"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Users of an abstraction see the interface, not the implementation."
+        },
+        {
+          "question": "Which decorator marks a method as abstract?",
+          "codeSnippet": null,
+          "options": [
+            "@abstractmethod",
+            "@staticmethod",
+            "@property",
+            "@classmethod"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "`@abstractmethod` comes from the `abc` module."
+        }
+      ]
+    },
+    {
+      "title": "Single Responsibility Principle",
+      "category": "SOLID",
+      "difficulty": "Beginner",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Single Responsibility Principle (SRP)",
+            "text": "A class should have **one, and only one, reason to change**. Each class focuses on a single job, so a change in one concern (e.g. how a report is printed) doesn't touch unrelated code (how the report data is built)."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Spotting responsibilities",
+          "data": {
+            "markdown": "Ask: *\"Who would ask me to change this class?\"* If the answer is several different people — the accountant **and** the designer **and** the DBA — the class has several responsibilities.\n\nA quick smell test is the word **\"and\"** in a description: *\"This class calculates totals **and** saves them **and** emails them.\"*\n\nSplitting responsibilities gives smaller classes that are easier to read, test and reuse."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "The five SOLID principles",
+          "data": {
+            "headers": [
+              "Letter",
+              "Principle",
+              "One-line summary"
+            ],
+            "rows": [
+              [
+                "S",
+                "Single Responsibility",
+                "A class should have one reason to change"
+              ],
+              [
+                "O",
+                "Open/Closed",
+                "Extend behaviour without editing existing code"
+              ],
+              [
+                "L",
+                "Liskov Substitution",
+                "Subclasses must work wherever the parent works"
+              ],
+              [
+                "I",
+                "Interface Segregation",
+                "Many small interfaces beat one fat interface"
+              ],
+              [
+                "D",
+                "Dependency Inversion",
+                "Depend on abstractions, not concrete classes"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Before vs after SRP",
+          "data": {
+            "headers": [
+              "",
+              "ReportBad (before)",
+              "Report + Printer (after)"
+            ],
+            "rows": [
+              [
+                "Responsibilities",
+                "Build data AND print it",
+                "One each"
+              ],
+              [
+                "Change print format",
+                "Edit ReportBad",
+                "Edit Printer only"
+              ],
+              [
+                "Reuse data elsewhere (e.g. PDF)",
+                "Hard — tied to print()",
+                "Easy — Report is independent"
+              ],
+              [
+                "Unit testing",
+                "Must capture printed output",
+                "Test generate() directly"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "SRP doesn't mean \"one method per class\". A class can have many methods as long as they all serve the same responsibility."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "One class → one reason to change.",
+              "Watch for the word \"and\" in a class description.",
+              "Smaller, focused classes are easier to test and reuse."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Before and after",
+          "data": {
+            "plantUml": "@startuml\npackage \"Before\" {\n  class ReportBad {\n    +generate()\n    +print_report()\n  }\n}\npackage \"After\" {\n  class Report {\n    +generate()\n  }\n  class Printer {\n    +print_report(report)\n  }\n  Printer ..> Report : uses\n}\n@enduml",
+            "caption": "ReportBad mixes two concerns. After the split, Report builds data and Printer presents it."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "SOLID Principles: Do You Really Understand Them?",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=kF7rQmSRlq0",
+            "caption": "Alex Hyett — all five SOLID principles with examples."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Separate Report and Printer",
+          "steps": [
+            {
+              "match": "class ReportBad:",
+              "title": "Two jobs in one class",
+              "explanation": "`ReportBad` builds the report data *and* prints it. A change to either concern forces a change to this class.",
+              "variables": [
+                {
+                  "name": "ReportBad",
+                  "value": "<class ReportBad>"
+                }
+              ]
+            },
+            {
+              "match": "def print_report(self):",
+              "title": "Mixed concerns",
+              "explanation": "Printing is a presentation concern. If we later need a PDF or HTML version, we would have to edit the report class again.",
+              "variables": []
+            },
+            {
+              "match": "class Report:",
+              "title": "Responsibility 1: data",
+              "explanation": "`Report` only knows how to generate the content.",
+              "variables": [
+                {
+                  "name": "Report",
+                  "value": "<class Report>"
+                }
+              ]
+            },
+            {
+              "match": "class Printer:",
+              "title": "Responsibility 2: presentation",
+              "explanation": "`Printer` only knows how to output a report. It receives the report as a parameter.",
+              "variables": [
+                {
+                  "name": "Report",
+                  "value": "<class Report>"
+                },
+                {
+                  "name": "Printer",
+                  "value": "<class Printer>"
+                }
+              ]
+            },
+            {
+              "match": "Printer().print_report(Report())",
+              "title": "Compose them",
+              "explanation": "We create one of each and let them collaborate.",
+              "predict": "What gets printed?",
+              "answer": "Sales Report Data",
+              "variables": []
+            },
+            {
+              "match": "print(report.generate())",
+              "title": "Each class does its own job",
+              "explanation": "Printer asks Report for the data, then prints it.",
+              "output": "Sales Report Data",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Split the UserManager",
+          "difficulty": "Medium",
+          "instructions": "The starter `UserManager` validates emails, stores users **and** sends welcome messages — three responsibilities.\nSplit it into focused classes:\n\n1. `EmailValidator` with `is_valid(email)` → `True` when the email contains `@` and the part after `@` contains a `.`\n2. `UserRepository` with `add(name)` and `count()`\n3. `WelcomeMailer` with `send(name)` → returns `\"Welcome, <name>!\"`\n4. `UserService(validator, repo, mailer)` with `register(name, email)` → returns the mailer's message, or `\"Invalid email\"` without saving anything.",
+          "starterCode": "class UserManager:\n    def __init__(self):\n        self.users = []\n\n    def register(self, name, email):\n        # validation, storage and messaging all in one place\n        if \"@\" not in email:\n            return \"Invalid email\"\n        self.users.append(name)\n        return f\"Welcome, {name}!\"\n\n\n# TODO: EmailValidator, UserRepository, WelcomeMailer, UserService\n",
+          "solutionCode": "class EmailValidator:\n    def is_valid(self, email):\n        return \"@\" in email and \".\" in email.split(\"@\")[-1]\n\n\nclass UserRepository:\n    def __init__(self):\n        self._users = []\n\n    def add(self, name):\n        self._users.append(name)\n\n    def count(self):\n        return len(self._users)\n\n\nclass WelcomeMailer:\n    def send(self, name):\n        return f\"Welcome, {name}!\"\n\n\nclass UserService:\n    def __init__(self, validator, repo, mailer):\n        self.validator = validator\n        self.repo = repo\n        self.mailer = mailer\n\n    def register(self, name, email):\n        if not self.validator.is_valid(email):\n            return \"Invalid email\"\n        self.repo.add(name)\n        return self.mailer.send(name)\n",
+          "hints": [
+            "Each new class is tiny — one or two methods.",
+            "`email.split(\"@\")[-1]` gives you the domain part to check for a dot.",
+            "UserService only coordinates: validate → save → send."
+          ],
+          "testCases": [
+            {
+              "name": "EmailValidator",
+              "code": "v = EmailValidator()\nprint(v.is_valid(\"ana@mail.com\"), v.is_valid(\"bad-email\"), v.is_valid(\"x@nodot\"))",
+              "expectedOutput": "True False False"
+            },
+            {
+              "name": "UserRepository counts users",
+              "code": "repo = UserRepository()\nrepo.add(\"ana\")\nrepo.add(\"ben\")\nprint(repo.count())",
+              "expectedOutput": "2"
+            },
+            {
+              "name": "UserService coordinates the others",
+              "code": "repo = UserRepository()\nsvc = UserService(EmailValidator(), repo, WelcomeMailer())\nprint(svc.register(\"Ana\", \"ana@mail.com\"))\nprint(svc.register(\"Ben\", \"nope\"))\nprint(repo.count())",
+              "expectedOutput": "Welcome, Ana!\nInvalid email\n1"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "SRP says a class should have…",
+          "codeSnippet": null,
+          "options": [
+            "only one reason to change",
+            "only one method",
+            "only one attribute",
+            "only one instance"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Responsibilities are about reasons to change, not the number of methods."
+        },
+        {
+          "question": "An `Invoice` class calculates totals, saves itself to the database and emails a PDF. How many responsibilities does it have?",
+          "codeSnippet": null,
+          "options": [
+            "1",
+            "2",
+            "3",
+            "0"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "Calculation, persistence and delivery are three separate concerns."
+        },
+        {
+          "question": "What is the main benefit of SRP?",
+          "codeSnippet": null,
+          "options": [
+            "A change in one concern doesn't break unrelated code",
+            "Fewer files in the project",
+            "Faster execution",
+            "No need for tests"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Focused classes isolate change."
+        }
+      ]
+    },
+    {
+      "title": "Open/Closed Principle",
+      "category": "SOLID",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Open/Closed Principle (OCP)",
+            "text": "Software entities should be **open for extension** but **closed for modification**. You add new behaviour by writing *new* code (e.g. a new class), not by editing code that already works."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Plug-ins, not surgery",
+          "data": {
+            "markdown": "Think of a power strip: you add a new device by **plugging it in**, not by rewiring the strip.\n\nThe usual technique is an **abstraction** (an abstract class or interface). Existing code depends on the abstraction; new behaviour arrives as a new subclass.\n\n```python\ndef checkout(price, discount: Discount):   # closed — never edited again\n    return discount.apply(price)\n\nclass StudentDiscount(Discount):            # open — new behaviour plugs in\n    def apply(self, price): return price * 0.8\n```"
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "if/elif vs OCP",
+          "data": {
+            "headers": [
+              "",
+              "if/elif on discount type",
+              "Discount abstraction"
+            ],
+            "rows": [
+              [
+                "Add a new discount",
+                "Edit checkout() and re-test it",
+                "Add a new class"
+              ],
+              [
+                "Risk to existing discounts",
+                "High",
+                "None — untouched"
+              ],
+              [
+                "Where each rule lives",
+                "One big function",
+                "Its own class"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "The five SOLID principles",
+          "data": {
+            "headers": [
+              "Letter",
+              "Principle",
+              "One-line summary"
+            ],
+            "rows": [
+              [
+                "S",
+                "Single Responsibility",
+                "A class should have one reason to change"
+              ],
+              [
+                "O",
+                "Open/Closed",
+                "Extend behaviour without editing existing code"
+              ],
+              [
+                "L",
+                "Liskov Substitution",
+                "Subclasses must work wherever the parent works"
+              ],
+              [
+                "I",
+                "Interface Segregation",
+                "Many small interfaces beat one fat interface"
+              ],
+              [
+                "D",
+                "Dependency Inversion",
+                "Depend on abstractions, not concrete classes"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "A long `if/elif` chain that checks an object's type is the classic OCP smell. Every new type means editing that chain."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Depend on an abstraction so new behaviour can be plugged in.",
+              "New features = new classes, not edits to tested code.",
+              "OCP pairs naturally with polymorphism and the Strategy pattern."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nabstract class Discount {\n  {abstract} +apply(price)\n}\nclass NoDiscount\nclass TenPercent\nclass BlackFriday\nclass \"checkout()\" as checkout << (F,#AEB784) function >>\nDiscount <|-- NoDiscount\nDiscount <|-- TenPercent\nDiscount <|-- BlackFriday\ncheckout --> Discount : depends on\n@enduml",
+            "caption": "checkout() depends only on Discount. New discounts extend the hierarchy without touching checkout()."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "SOLID Principles: Do You Really Understand Them?",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=kF7rQmSRlq0",
+            "caption": "Alex Hyett — all five SOLID principles with examples."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Discount Strategy",
+          "steps": [
+            {
+              "match": "class Discount(ABC):",
+              "title": "The extension point",
+              "explanation": "`Discount` is the abstraction every discount must follow: an `apply(price)` method.",
+              "variables": [
+                {
+                  "name": "Discount",
+                  "value": "<abstract class Discount>"
+                }
+              ]
+            },
+            {
+              "match": "class TenPercent(Discount):",
+              "title": "One implementation per rule",
+              "explanation": "Each discount rule lives in its own class.",
+              "variables": [
+                {
+                  "name": "NoDiscount",
+                  "value": "→ Discount"
+                },
+                {
+                  "name": "TenPercent",
+                  "value": "→ Discount"
+                },
+                {
+                  "name": "BlackFriday",
+                  "value": "→ Discount"
+                }
+              ]
+            },
+            {
+              "match": "def checkout(price, discount: Discount):",
+              "title": "Closed for modification",
+              "explanation": "`checkout` only knows about the `Discount` abstraction. It will never need editing when new discounts appear.",
+              "variables": []
+            },
+            {
+              "match": "checkout(100, NoDiscount())",
+              "title": "Plug in a discount",
+              "explanation": "Passing `NoDiscount()` — apply() returns the price unchanged.",
+              "output": "Final price: $100.00",
+              "variables": []
+            },
+            {
+              "match": "checkout(100, TenPercent())",
+              "title": "Plug in another",
+              "explanation": "Same checkout, different behaviour.",
+              "predict": "What will the final price be?",
+              "answer": "$90.00",
+              "output": "Final price: $100.00\nFinal price: $90.00",
+              "variables": []
+            },
+            {
+              "match": "checkout(100, BlackFriday())",
+              "title": "Open for extension",
+              "explanation": "BlackFriday was added as a new class — checkout() didn't change at all.",
+              "output": "Final price: $100.00\nFinal price: $90.00\nFinal price: $50.00",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Pluggable shipping",
+          "difficulty": "Medium",
+          "instructions": "The starter uses an `if/elif` chain on a string. Refactor it so new shipping methods can be added **without editing** `total()`.\n\n1. Abstract class `Shipping(ABC)` with abstract `cost(weight)`.\n2. `Standard`: `5 + 1 * weight`   ·   `Express`: `10 + 2 * weight`   ·   `Drone`: always `15`.\n3. `total(order_amount, weight, shipping)` returns `order_amount + shipping.cost(weight)`.",
+          "starterCode": "def total(order_amount, weight, method):\n    if method == \"standard\":\n        return order_amount + 5 + weight\n    elif method == \"express\":\n        return order_amount + 10 + 2 * weight\n    # every new method means editing this function...\n\n\nprint(total(100, 2, \"standard\"))\n",
+          "solutionCode": "from abc import ABC, abstractmethod\n\n\nclass Shipping(ABC):\n    @abstractmethod\n    def cost(self, weight):\n        pass\n\n\nclass Standard(Shipping):\n    def cost(self, weight):\n        return 5 + 1 * weight\n\n\nclass Express(Shipping):\n    def cost(self, weight):\n        return 10 + 2 * weight\n\n\nclass Drone(Shipping):\n    def cost(self, weight):\n        return 15\n\n\ndef total(order_amount, weight, shipping):\n    return order_amount + shipping.cost(weight)\n",
+          "hints": [
+            "Start with `class Shipping(ABC):` and an `@abstractmethod def cost(self, weight)`.",
+            "Each shipping method becomes a small subclass.",
+            "`total()` should call `shipping.cost(weight)` — no if/elif at all."
+          ],
+          "testCases": [
+            {
+              "name": "Standard and Express costs",
+              "code": "print(Standard().cost(3), Express().cost(3))",
+              "expectedOutput": "8 16"
+            },
+            {
+              "name": "total() with a Drone",
+              "code": "print(total(100, 2, Drone()))",
+              "expectedOutput": "115"
+            },
+            {
+              "name": "new methods plug in without edits",
+              "code": "class Free(Shipping):\n    def cost(self, weight):\n        return 0\n\nprint(total(50, 10, Free()))",
+              "expectedOutput": "50"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "The Open/Closed Principle says software should be…",
+          "codeSnippet": null,
+          "options": [
+            "open for extension, closed for modification",
+            "open source and closed to bugs",
+            "open to every user",
+            "closed for extension, open for modification"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Add behaviour by extending, not by editing working code."
+        },
+        {
+          "question": "You need a new `StudentDiscount`. Following OCP you…",
+          "codeSnippet": null,
+          "options": [
+            "add a new class that implements Discount",
+            "add an elif to checkout()",
+            "copy checkout() into a new function",
+            "edit NoDiscount"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "checkout() stays untouched; the new class plugs into the abstraction."
+        },
+        {
+          "question": "Which code smell often signals an OCP violation?",
+          "codeSnippet": null,
+          "options": [
+            "A long if/elif chain that checks an object's type",
+            "Short methods",
+            "Abstract base classes",
+            "Docstrings"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Each new type forces an edit to the chain."
+        }
+      ]
+    },
+    {
+      "title": "Liskov Substitution Principle",
+      "category": "SOLID",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Liskov Substitution Principle (LSP)",
+            "text": "Objects of a subclass must be usable **anywhere** an object of the parent class is expected, **without breaking** the program. A subclass may extend behaviour, but must not break the promises its parent makes."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Broken promises",
+          "data": {
+            "markdown": "If `Bird` promises `fly()`, then *every* bird subclass must be able to fly. A `Penguin` that raises an exception in `fly()` breaks that promise — any code looping over birds and calling `fly()` will crash.\n\nThe fix is to model the hierarchy so that promises are only made where they're true:\n\n- `Bird` → things **all** birds do (`eat()`)\n- `FlyingBird(Bird)` → adds `fly()`\n- `Penguin(Bird)` → never promised to fly"
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Signs of an LSP violation",
+          "data": {
+            "headers": [
+              "Symptom",
+              "Example"
+            ],
+            "rows": [
+              [
+                "Subclass raises NotImplementedError / Exception for an inherited method",
+                "PenguinBad.fly()"
+              ],
+              [
+                "Subclass silently does nothing",
+                "fly() that just passes"
+              ],
+              [
+                "Callers check the type before calling",
+                "if not isinstance(b, Penguin): b.fly()"
+              ],
+              [
+                "Subclass changes the meaning of a method",
+                "Square.set_width() also changing height"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "The five SOLID principles",
+          "data": {
+            "headers": [
+              "Letter",
+              "Principle",
+              "One-line summary"
+            ],
+            "rows": [
+              [
+                "S",
+                "Single Responsibility",
+                "A class should have one reason to change"
+              ],
+              [
+                "O",
+                "Open/Closed",
+                "Extend behaviour without editing existing code"
+              ],
+              [
+                "L",
+                "Liskov Substitution",
+                "Subclasses must work wherever the parent works"
+              ],
+              [
+                "I",
+                "Interface Segregation",
+                "Many small interfaces beat one fat interface"
+              ],
+              [
+                "D",
+                "Dependency Inversion",
+                "Depend on abstractions, not concrete classes"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "\"Is-a\" in real life isn't always \"is-a\" in code. A square *is a* rectangle in maths, but a `Square` subclass that forces width == height breaks code that sets them independently."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "A subclass must honour every promise of its parent.",
+              "Needing an isinstance check before calling a method is a red flag.",
+              "Fix violations by reshaping the hierarchy, not by adding special cases."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\npackage \"Violates LSP\" {\n  class BirdBad {\n    +fly()\n  }\n  class PenguinBad {\n    +fly() raises!\n  }\n  BirdBad <|-- PenguinBad\n}\npackage \"Respects LSP\" {\n  class Bird {\n    +eat()\n  }\n  class FlyingBird {\n    +fly()\n  }\n  class Eagle\n  class Penguin\n  Bird <|-- FlyingBird\n  FlyingBird <|-- Eagle\n  Bird <|-- Penguin\n}\n@enduml",
+            "caption": "Only FlyingBird promises fly(), so every subclass can keep its promises."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "SOLID Principles: Do You Really Understand Them?",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=kF7rQmSRlq0",
+            "caption": "Alex Hyett — all five SOLID principles with examples."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Bird Flight Example",
+          "steps": [
+            {
+              "match": "class BirdBad:",
+              "title": "A risky promise",
+              "explanation": "`BirdBad` promises that every bird can `fly()`.",
+              "variables": []
+            },
+            {
+              "match": "raise Exception(\"Penguins can't fly!\")",
+              "title": "The promise is broken",
+              "explanation": "PenguinBad can't keep the promise. Any code that calls `fly()` on a list of BirdBad objects will crash when it meets a penguin.",
+              "predict": "What happens if you loop over [BirdBad(), PenguinBad()] calling fly()?",
+              "answer": "It crashes on the penguin with an Exception.",
+              "variables": []
+            },
+            {
+              "match": "class Bird:",
+              "title": "Promise only what's always true",
+              "explanation": "The new `Bird` only promises `eat()` — something every bird can do.",
+              "variables": [
+                {
+                  "name": "Bird",
+                  "value": "<class Bird>"
+                }
+              ]
+            },
+            {
+              "match": "class FlyingBird(Bird):",
+              "title": "Add ability where it applies",
+              "explanation": "`FlyingBird` adds `fly()` only for birds that really can fly.",
+              "variables": [
+                {
+                  "name": "Bird",
+                  "value": "<class Bird>"
+                },
+                {
+                  "name": "FlyingBird",
+                  "value": "→ Bird"
+                }
+              ]
+            },
+            {
+              "match": "class Penguin(Bird):",
+              "title": "Penguin never promises to fly",
+              "explanation": "Penguin inherits from `Bird`, not `FlyingBird`, so it can always be substituted for a Bird.",
+              "variables": [
+                {
+                  "name": "Eagle",
+                  "value": "→ FlyingBird → Bird"
+                },
+                {
+                  "name": "Penguin",
+                  "value": "→ Bird"
+                }
+              ]
+            },
+            {
+              "match": "Eagle().fly()",
+              "title": "Safe substitution",
+              "explanation": "Eagle is a FlyingBird, so calling fly() is always safe.",
+              "output": "Eagle is flying.",
+              "variables": []
+            },
+            {
+              "match": "Penguin().eat()",
+              "title": "Every Bird can eat",
+              "explanation": "Penguin works everywhere a Bird is expected.",
+              "output": "Eagle is flying.\nEagle is eating.\nPenguin is eating.",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Fix the square",
+          "difficulty": "Medium",
+          "instructions": "The starter's `Square` inherits from `Rectangle` and secretly changes both sides in `set_width()` — code that expects a normal rectangle gets the wrong area. That breaks LSP.\n\nRedesign it:\n\n1. Abstract `Shape(ABC)` with abstract `area()`.\n2. `Rectangle(width, height)` and `Square(side)` **both** inherit from `Shape` (Square must **not** inherit from Rectangle).\n3. `total_area(shapes)` returns the sum of all areas.",
+          "starterCode": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def set_width(self, width):\n        self.width = width\n\n    def area(self):\n        return self.width * self.height\n\n\nclass Square(Rectangle):\n    def __init__(self, side):\n        super().__init__(side, side)\n\n    def set_width(self, width):   # surprise! changes height too\n        self.width = width\n        self.height = width\n\n\ns = Square(2)\ns.set_width(5)\nprint(s.area())   # code expecting a rectangle 5 x 2 gets 25\n",
+          "solutionCode": "from abc import ABC, abstractmethod\n\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\n\nclass Square(Shape):\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\n\ndef total_area(shapes):\n    return sum(shape.area() for shape in shapes)\n",
+          "hints": [
+            "Create `class Shape(ABC)` with `@abstractmethod def area(self)`.",
+            "`class Square(Shape):` — store a single `side`.",
+            "`total_area` can be `return sum(s.area() for s in shapes)`."
+          ],
+          "testCases": [
+            {
+              "name": "areas",
+              "code": "print(Rectangle(2, 5).area(), Square(3).area())",
+              "expectedOutput": "10 9"
+            },
+            {
+              "name": "total_area()",
+              "code": "print(total_area([Rectangle(1, 2), Square(2)]))",
+              "expectedOutput": "6"
+            },
+            {
+              "name": "Square is no longer a Rectangle",
+              "code": "print(issubclass(Square, Rectangle), issubclass(Square, Shape))",
+              "expectedOutput": "False True"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "LSP says objects of a subclass should…",
+          "codeSnippet": null,
+          "options": [
+            "be usable anywhere the parent is expected without breaking behaviour",
+            "have more attributes than the parent",
+            "never override methods",
+            "use the same constructor as the parent"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Substitutability is the whole point."
+        },
+        {
+          "question": "Why does `PenguinBad.fly()` raising an exception violate LSP?",
+          "codeSnippet": null,
+          "options": [
+            "Code that works with any BirdBad will crash for a penguin",
+            "Penguins are not birds",
+            "Exceptions are not allowed in Python",
+            "fly() has no parameters"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The subclass broke a promise the parent made."
+        },
+        {
+          "question": "Which redesign respects LSP?",
+          "codeSnippet": null,
+          "options": [
+            "Give fly() only to birds that can fly (FlyingBird)",
+            "Make Penguin.fly() print nothing",
+            "Delete the Bird class",
+            "Wrap every call in try/except"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Reshape the hierarchy so every promise is keepable."
+        }
+      ]
+    },
+    {
+      "title": "Interface Segregation Principle",
+      "category": "SOLID",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Interface Segregation Principle (ISP)",
+            "text": "**No class should be forced to implement methods it does not use.** Prefer several small, focused interfaces over one large \"fat\" interface."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Fat interfaces",
+          "data": {
+            "markdown": "Imagine a `Worker` interface with `work()`, `eat()` and `sleep()`. A `Robot` can work but doesn't eat or sleep — yet it's forced to implement those methods, usually with `raise NotImplementedError` (which then breaks LSP too).\n\nSplitting the interface fixes it:\n\n- `Workable` → `work()`\n- `Eatable` → `eat()`\n\nA `Human` implements both; a `Robot` implements only `Workable`. In Python a class can inherit from several ABCs at once."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Fat vs segregated interfaces",
+          "data": {
+            "headers": [
+              "",
+              "One fat Worker interface",
+              "Workable + Eatable"
+            ],
+            "rows": [
+              [
+                "Robot must implement eat()",
+                "Yes (dummy method)",
+                "No"
+              ],
+              [
+                "Adding a new method",
+                "Every implementer must change",
+                "Only the classes that need it"
+              ],
+              [
+                "Client dependencies",
+                "Clients see methods they never call",
+                "Clients see only what they use"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "The five SOLID principles",
+          "data": {
+            "headers": [
+              "Letter",
+              "Principle",
+              "One-line summary"
+            ],
+            "rows": [
+              [
+                "S",
+                "Single Responsibility",
+                "A class should have one reason to change"
+              ],
+              [
+                "O",
+                "Open/Closed",
+                "Extend behaviour without editing existing code"
+              ],
+              [
+                "L",
+                "Liskov Substitution",
+                "Subclasses must work wherever the parent works"
+              ],
+              [
+                "I",
+                "Interface Segregation",
+                "Many small interfaces beat one fat interface"
+              ],
+              [
+                "D",
+                "Dependency Inversion",
+                "Depend on abstractions, not concrete classes"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "tip",
+            "text": "If you find yourself writing `raise NotImplementedError` in a subclass just to satisfy an interface, the interface is probably too big."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Small, role-based interfaces beat one big interface.",
+              "Classes implement only the roles they actually play.",
+              "Python supports this with multiple inheritance from ABCs."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\ninterface Workable {\n  +work()\n}\ninterface Eatable {\n  +eat()\n}\nclass Human {\n  +work()\n  +eat()\n}\nclass Robot {\n  +work()\n}\nWorkable <|.. Human\nEatable <|.. Human\nWorkable <|.. Robot\n@enduml",
+            "caption": "Human plays two roles; Robot plays only one, so it is never forced to implement eat()."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "SOLID Principles: Do You Really Understand Them?",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=kF7rQmSRlq0",
+            "caption": "Alex Hyett — all five SOLID principles with examples."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Worker Interfaces",
+          "steps": [
+            {
+              "match": "class Workable(ABC):",
+              "title": "Role 1: working",
+              "explanation": "A tiny interface with just `work()`.",
+              "variables": [
+                {
+                  "name": "Workable",
+                  "value": "<interface>"
+                }
+              ]
+            },
+            {
+              "match": "class Eatable(ABC):",
+              "title": "Role 2: eating",
+              "explanation": "Another tiny interface with just `eat()`.",
+              "variables": [
+                {
+                  "name": "Workable",
+                  "value": "<interface>"
+                },
+                {
+                  "name": "Eatable",
+                  "value": "<interface>"
+                }
+              ]
+            },
+            {
+              "match": "class Human(Workable, Eatable):",
+              "title": "Implement both roles",
+              "explanation": "Humans both work and eat, so `Human` inherits from both interfaces.",
+              "variables": [
+                {
+                  "name": "Human",
+                  "value": "→ Workable, Eatable"
+                }
+              ]
+            },
+            {
+              "match": "class Robot(Workable):",
+              "title": "Implement only what applies",
+              "explanation": "Robots only work. `Robot` is never forced to write a fake `eat()`.",
+              "predict": "Does Robot have an eat() method?",
+              "answer": "No — it only implements Workable.",
+              "variables": [
+                {
+                  "name": "Human",
+                  "value": "→ Workable, Eatable"
+                },
+                {
+                  "name": "Robot",
+                  "value": "→ Workable"
+                }
+              ]
+            },
+            {
+              "match": "Human().work(); Human().eat()",
+              "title": "Use the human",
+              "explanation": "Both roles are available on Human.",
+              "output": "Human working.\nHuman eating.",
+              "variables": []
+            },
+            {
+              "match": "Robot().work()",
+              "title": "Use the robot",
+              "explanation": "Robot does its single job.",
+              "output": "Human working.\nHuman eating.\nRobot working.",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Office machines",
+          "difficulty": "Easy",
+          "instructions": "Replace the fat `Machine` interface with three small ones:\n\n- `Printable` → `print_doc(doc)`\n- `Scannable` → `scan_doc(doc)`\n- `Faxable` → `fax_doc(doc)`\n\nThen create:\n\n1. `SimplePrinter` — implements **only** `Printable`; `print_doc(\"cv.pdf\")` returns `\"Printing cv.pdf\"`.\n2. `OfficeMachine` — implements all three, returning `\"Printing <doc>\"`, `\"Scanning <doc>\"` and `\"Faxing <doc>\"`.",
+          "starterCode": "from abc import ABC, abstractmethod\n\n\nclass Machine(ABC):          # too fat!\n    @abstractmethod\n    def print_doc(self, doc): pass\n\n    @abstractmethod\n    def scan_doc(self, doc): pass\n\n    @abstractmethod\n    def fax_doc(self, doc): pass\n\n\nclass SimplePrinter(Machine):\n    def print_doc(self, doc):\n        return f\"Printing {doc}\"\n\n    def scan_doc(self, doc):\n        raise NotImplementedError(\"can't scan\")\n\n    def fax_doc(self, doc):\n        raise NotImplementedError(\"can't fax\")\n",
+          "solutionCode": "from abc import ABC, abstractmethod\n\n\nclass Printable(ABC):\n    @abstractmethod\n    def print_doc(self, doc): pass\n\n\nclass Scannable(ABC):\n    @abstractmethod\n    def scan_doc(self, doc): pass\n\n\nclass Faxable(ABC):\n    @abstractmethod\n    def fax_doc(self, doc): pass\n\n\nclass SimplePrinter(Printable):\n    def print_doc(self, doc):\n        return f\"Printing {doc}\"\n\n\nclass OfficeMachine(Printable, Scannable, Faxable):\n    def print_doc(self, doc):\n        return f\"Printing {doc}\"\n\n    def scan_doc(self, doc):\n        return f\"Scanning {doc}\"\n\n    def fax_doc(self, doc):\n        return f\"Faxing {doc}\"\n",
+          "hints": [
+            "Each interface is an ABC with a single abstract method.",
+            "SimplePrinter inherits only from Printable.",
+            "OfficeMachine lists all three: `class OfficeMachine(Printable, Scannable, Faxable):`."
+          ],
+          "testCases": [
+            {
+              "name": "SimplePrinter prints",
+              "code": "print(SimplePrinter().print_doc(\"cv.pdf\"))",
+              "expectedOutput": "Printing cv.pdf"
+            },
+            {
+              "name": "OfficeMachine does everything",
+              "code": "m = OfficeMachine()\nprint(m.scan_doc(\"a\"), \"/\", m.fax_doc(\"b\"))",
+              "expectedOutput": "Scanning a / Faxing b"
+            },
+            {
+              "name": "SimplePrinter isn't forced to fax",
+              "code": "print(hasattr(SimplePrinter(), \"fax_doc\"), isinstance(OfficeMachine(), Scannable))",
+              "expectedOutput": "False True"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "ISP says clients should not be forced to…",
+          "codeSnippet": null,
+          "options": [
+            "depend on methods they do not use",
+            "use abstract classes",
+            "write interfaces",
+            "inherit from object"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Small interfaces keep dependencies minimal."
+        },
+        {
+          "question": "A `Robot` class has an `eat()` method that raises NotImplementedError. The best fix is to…",
+          "codeSnippet": null,
+          "options": [
+            "split the interface so Robot only implements Workable",
+            "make eat() return None",
+            "delete the Robot class",
+            "add sleep() too"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Robot shouldn't be forced to have eat() at all."
+        },
+        {
+          "question": "In Python, a class can implement several small interfaces by…",
+          "codeSnippet": null,
+          "options": [
+            "inheriting from multiple ABCs",
+            "using only one base class",
+            "copying methods by hand",
+            "using global functions"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "`class Human(Workable, Eatable):`"
+        }
+      ]
+    },
+    {
+      "title": "Dependency Inversion Principle",
+      "category": "SOLID",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Dependency Inversion Principle (DIP)",
+            "text": "**High-level modules should not depend on low-level modules; both should depend on abstractions.** Business logic (like placing an order) talks to an interface (`Notifier`), not to a specific technology (`EmailNotifier`)."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Wall sockets",
+          "data": {
+            "markdown": "A lamp doesn't care which power station produced the electricity — it only depends on the **socket** (the abstraction). You can switch to solar without rewiring the lamp.\n\nIn code, the abstraction is usually passed in from outside — **dependency injection**:\n\n```python\nclass Order:\n    def __init__(self, notifier: Notifier):   # injected\n        self.notifier = notifier\n```\n\nNow `Order` works with email, SMS, push — or a fake notifier in tests."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Without vs with DIP",
+          "data": {
+            "headers": [
+              "",
+              "Order creates EmailNotifier()",
+              "Order receives a Notifier"
+            ],
+            "rows": [
+              [
+                "Switch to SMS",
+                "Edit Order",
+                "Pass SMSNotifier()"
+              ],
+              [
+                "Unit test without sending email",
+                "Hard",
+                "Pass a fake Notifier"
+              ],
+              [
+                "Order depends on",
+                "A concrete class",
+                "An abstraction"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "The five SOLID principles",
+          "data": {
+            "headers": [
+              "Letter",
+              "Principle",
+              "One-line summary"
+            ],
+            "rows": [
+              [
+                "S",
+                "Single Responsibility",
+                "A class should have one reason to change"
+              ],
+              [
+                "O",
+                "Open/Closed",
+                "Extend behaviour without editing existing code"
+              ],
+              [
+                "L",
+                "Liskov Substitution",
+                "Subclasses must work wherever the parent works"
+              ],
+              [
+                "I",
+                "Interface Segregation",
+                "Many small interfaces beat one fat interface"
+              ],
+              [
+                "D",
+                "Dependency Inversion",
+                "Depend on abstractions, not concrete classes"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "info",
+            "text": "Dependency *Inversion* is the principle; dependency *Injection* (passing collaborators in through the constructor) is the most common way to apply it."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Business logic depends on abstractions, not implementations.",
+              "Pass dependencies in (dependency injection) instead of creating them inside.",
+              "Swapping implementations — or using fakes in tests — becomes trivial."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass Order {\n  -notifier : Notifier\n  +place(item)\n}\ninterface Notifier {\n  +send(message)\n}\nclass EmailNotifier\nclass SMSNotifier\nOrder --> Notifier : depends on\nNotifier <|.. EmailNotifier\nNotifier <|.. SMSNotifier\n@enduml",
+            "caption": "Both the high-level Order and the low-level notifiers depend on the Notifier abstraction."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "SOLID Principles: Do You Really Understand Them?",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=kF7rQmSRlq0",
+            "caption": "Alex Hyett — all five SOLID principles with examples."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Notification Service",
+          "steps": [
+            {
+              "match": "class Notifier(ABC):",
+              "title": "The abstraction",
+              "explanation": "`Notifier` defines what any notifier can do: `send(message)`.",
+              "variables": [
+                {
+                  "name": "Notifier",
+                  "value": "<abstract class>"
+                }
+              ]
+            },
+            {
+              "match": "class EmailNotifier(Notifier):",
+              "title": "Low-level details",
+              "explanation": "Email and SMS notifiers implement the abstraction. They are the \"low-level\" modules.",
+              "variables": [
+                {
+                  "name": "EmailNotifier",
+                  "value": "→ Notifier"
+                },
+                {
+                  "name": "SMSNotifier",
+                  "value": "→ Notifier"
+                }
+              ]
+            },
+            {
+              "match": "def __init__(self, notifier: Notifier):",
+              "title": "Inject the dependency",
+              "explanation": "`Order` doesn't create a notifier; it *receives* one. It only knows it's some `Notifier`.",
+              "variables": []
+            },
+            {
+              "match": "Order(EmailNotifier()).place(\"Laptop\")",
+              "title": "Wire it up with email",
+              "explanation": "We choose the concrete notifier from outside and inject it.",
+              "output": "Order placed for Laptop.\nEmail: Your order for Laptop is confirmed!",
+              "variables": [
+                {
+                  "name": "order.notifier",
+                  "value": "EmailNotifier()"
+                }
+              ]
+            },
+            {
+              "match": "Order(SMSNotifier()).place(\"Phone\")",
+              "title": "Swap without editing Order",
+              "explanation": "Same Order class, different notifier — no code inside Order changed.",
+              "predict": "What will the second notification line start with?",
+              "answer": "SMS:",
+              "output": "Order placed for Laptop.\nEmail: Your order for Laptop is confirmed!\nOrder placed for Phone.\nSMS: Your order for Phone is confirmed!",
+              "variables": [
+                {
+                  "name": "order.notifier",
+                  "value": "SMSNotifier()"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Inject a logger",
+          "difficulty": "Medium",
+          "instructions": "The starter's `Calculator` creates its own `print`-based logging, so it can't be tested quietly. Invert the dependency:\n\n1. Abstract `Logger(ABC)` with abstract `log(message)`.\n2. `ConsoleLogger` prints `\"[LOG] <message>\"`.\n3. `MemoryLogger` stores messages in a list attribute `messages`.\n4. `Calculator(logger)` receives the logger. `add(a, b)` returns the sum and logs `\"add <a> <b> = <result>\"`.",
+          "starterCode": "class Calculator:\n    def add(self, a, b):\n        result = a + b\n        print(f\"[LOG] add {a} {b} = {result}\")   # hard-wired dependency\n        return result\n\n\nprint(Calculator().add(2, 3))\n",
+          "solutionCode": "from abc import ABC, abstractmethod\n\n\nclass Logger(ABC):\n    @abstractmethod\n    def log(self, message):\n        pass\n\n\nclass ConsoleLogger(Logger):\n    def log(self, message):\n        print(f\"[LOG] {message}\")\n\n\nclass MemoryLogger(Logger):\n    def __init__(self):\n        self.messages = []\n\n    def log(self, message):\n        self.messages.append(message)\n\n\nclass Calculator:\n    def __init__(self, logger):\n        self.logger = logger\n\n    def add(self, a, b):\n        result = a + b\n        self.logger.log(f\"add {a} {b} = {result}\")\n        return result\n",
+          "hints": [
+            "Calculator's `__init__` should take a `logger` and store it.",
+            "Inside add(), call `self.logger.log(...)` instead of print().",
+            "MemoryLogger needs `self.messages = []` in its `__init__`."
+          ],
+          "testCases": [
+            {
+              "name": "MemoryLogger records quietly",
+              "code": "mem = MemoryLogger()\ncalc = Calculator(mem)\nprint(calc.add(2, 3))\nprint(mem.messages)",
+              "expectedOutput": "5\n['add 2 3 = 5']"
+            },
+            {
+              "name": "ConsoleLogger prints",
+              "code": "Calculator(ConsoleLogger()).add(1, 1)",
+              "expectedOutput": "[LOG] add 1 1 = 2"
+            },
+            {
+              "name": "any Logger can be injected",
+              "code": "class Fake(Logger):\n    def log(self, message):\n        print(\"fake:\", message)\n\nCalculator(Fake()).add(4, 4)",
+              "expectedOutput": "fake: add 4 4 = 8"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "According to DIP, high-level modules should depend on…",
+          "codeSnippet": null,
+          "options": [
+            "abstractions",
+            "concrete low-level classes",
+            "global variables",
+            "the database"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Both high- and low-level code depend on the abstraction."
+        },
+        {
+          "question": "In the example, how does `Order` get its notifier?",
+          "codeSnippet": null,
+          "options": [
+            "It is passed into the constructor (dependency injection)",
+            "Order creates EmailNotifier itself",
+            "It reads a global variable",
+            "It inherits from Notifier"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The caller decides which Notifier to use."
+        },
+        {
+          "question": "What is the biggest testing benefit of DIP?",
+          "codeSnippet": null,
+          "options": [
+            "You can pass a fake implementation in tests",
+            "Tests can run without Python",
+            "You no longer need tests",
+            "All classes become private"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "A fake notifier or logger lets you test logic without side effects."
+        }
+      ]
+    },
+    {
+      "title": "Singleton Pattern",
+      "category": "DesignPatterns",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Singleton",
+            "text": "The **Singleton** pattern ensures a class has **only one instance** and provides a single, global point of access to it. Every call to the constructor returns the *same* object."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "When is one enough?",
+          "data": {
+            "markdown": "Some things should exist exactly once in a program: the application's **configuration**, a **connection pool**, a **logger**.\nIf two parts of the code each created their own `Config`, a setting changed in one place wouldn't be seen in the other.\n\nIn Python the simplest way is to override `__new__`, which runs *before* `__init__` and decides which object to return:\nif an instance already exists, return it instead of creating a new one."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pattern families (Gang of Four)",
+          "data": {
+            "headers": [
+              "Family",
+              "Solves",
+              "Patterns in this course"
+            ],
+            "rows": [
+              [
+                "Creational",
+                "How objects are created",
+                "Singleton, Factory"
+              ],
+              [
+                "Structural",
+                "How objects are composed",
+                "Decorator"
+              ],
+              [
+                "Behavioural",
+                "How objects communicate",
+                "Observer, Strategy"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pros and cons",
+          "data": {
+            "headers": [
+              "Pros",
+              "Cons"
+            ],
+            "rows": [
+              [
+                "Exactly one shared instance",
+                "Behaves like a global variable"
+              ],
+              [
+                "Lazy creation — made only when first needed",
+                "Hides dependencies; harder to unit-test"
+              ],
+              [
+                "Single access point",
+                "Needs care with threads"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "warning",
+            "text": "Use Singleton sparingly. Passing a shared object in explicitly (dependency injection) is often clearer and easier to test."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "One class → one instance, shared everywhere.",
+              "In Python, override `__new__` to return the stored instance.",
+              "Great for config and shared resources; overusing it creates hidden global state."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass Config {\n  {static} -_instance : Config\n  +debug : bool\n  --\n  +__new__(cls) : Config\n}\nnote right of Config\n  __new__ returns the existing\n  _instance if there is one,\n  otherwise creates it once.\nend note\n@enduml",
+            "caption": "The class stores its only instance in a class-level attribute."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Sequence: two calls, one object",
+          "data": {
+            "plantUml": "@startuml\nparticipant \"c1 = Config()\" as A\nparticipant \"c2 = Config()\" as B\nparticipant \"Config\" as C\nA -> C : __new__()\nC -> C : _instance is None → create\nC --> A : instance #1\nB -> C : __new__()\nC -> C : _instance exists\nC --> B : same instance #1\n@enduml",
+            "caption": "The second call gets the object created by the first."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "10 Design Patterns Explained in 10 Minutes",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=tv-_1er1mWI",
+            "caption": "Fireship — a fast tour of common Gang of Four patterns."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Config Manager",
+          "steps": [
+            {
+              "match": "_instance = None",
+              "title": "A slot for the one instance",
+              "explanation": "`_instance` is a *class* attribute shared by every call. It starts empty.",
+              "variables": [
+                {
+                  "name": "Config._instance",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "match": "c1 = Config()",
+              "title": "First call",
+              "explanation": "Calling `Config()` runs `__new__` before anything else.",
+              "variables": [
+                {
+                  "name": "Config._instance",
+                  "value": "None"
+                }
+              ]
+            },
+            {
+              "match": "cls._instance = super().__new__(cls)",
+              "title": "Create it — only once",
+              "explanation": "Because `_instance` is None, a real object is created and stored.",
+              "variables": [
+                {
+                  "name": "Config._instance",
+                  "value": "Config#1 (debug=False)"
+                },
+                {
+                  "name": "c1",
+                  "value": "Config#1"
+                }
+              ]
+            },
+            {
+              "match": "c2 = Config()",
+              "title": "Second call",
+              "explanation": "`__new__` runs again, but `_instance` is already set, so it returns the existing object.",
+              "predict": "Will c2 be a new object?",
+              "answer": "No — c2 is the very same object as c1.",
+              "variables": [
+                {
+                  "name": "Config._instance",
+                  "value": "Config#1"
+                },
+                {
+                  "name": "c1",
+                  "value": "Config#1"
+                },
+                {
+                  "name": "c2",
+                  "value": "Config#1"
+                }
+              ]
+            },
+            {
+              "match": "c1.debug = True",
+              "title": "Change through one reference",
+              "explanation": "Setting `debug` via `c1` changes the single shared object.",
+              "variables": [
+                {
+                  "name": "c1",
+                  "value": "Config#1 (debug=True)"
+                },
+                {
+                  "name": "c2",
+                  "value": "Config#1 (debug=True)"
+                }
+              ]
+            },
+            {
+              "match": "print(\"Same instance?\", c1 is c2)",
+              "title": "Prove it",
+              "explanation": "`is` checks identity — both names point at the same object.",
+              "output": "Same instance? True",
+              "variables": []
+            },
+            {
+              "match": "print(\"c2.debug:\", c2.debug)",
+              "title": "Seen everywhere",
+              "explanation": "The change made through `c1` is visible through `c2`.",
+              "output": "Same instance? True\nc2.debug: True",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "A single app counter",
+          "difficulty": "Medium",
+          "instructions": "Build an `AppCounter` singleton:\n\n1. `AppCounter()` must always return the **same** object.\n2. It has a `value` attribute that starts at `0` the first time it is created.\n3. `increment()` adds 1 to `value` and **returns** the new value.",
+          "starterCode": "class AppCounter:\n    def __init__(self):\n        self.value = 0          # careful: __init__ runs on every call!\n\n    def increment(self):\n        self.value += 1\n        return self.value\n\n\na = AppCounter()\nb = AppCounter()\nprint(a is b)\n",
+          "solutionCode": "class AppCounter:\n    _instance = None\n\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n            cls._instance.value = 0\n        return cls._instance\n\n    def increment(self):\n        self.value += 1\n        return self.value\n",
+          "hints": [
+            "Add a class attribute `_instance = None`.",
+            "Override `__new__(cls)` and only create the object when `_instance` is None.",
+            "Initialise `value` inside `__new__` (not `__init__`), otherwise it resets on every call."
+          ],
+          "testCases": [
+            {
+              "name": "always the same object",
+              "code": "print(AppCounter() is AppCounter())",
+              "expectedOutput": "True"
+            },
+            {
+              "name": "state is shared",
+              "code": "a = AppCounter()\nstart = a.value\nAppCounter().increment()\nAppCounter().increment()\nprint(a.value - start)",
+              "expectedOutput": "2"
+            },
+            {
+              "name": "increment() returns the new value",
+              "code": "first = AppCounter().increment()\nsecond = AppCounter().increment()\nprint(second - first)",
+              "expectedOutput": "1"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "The Singleton pattern guarantees that…",
+          "codeSnippet": null,
+          "options": [
+            "a class has only one instance with a global access point",
+            "a class has only one method",
+            "objects are immutable",
+            "only one thread can run"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Every construction returns the same object."
+        },
+        {
+          "question": "Using the Config class from the example, what does this print?",
+          "codeSnippet": "print(Config() is Config())",
+          "options": [
+            "True",
+            "False",
+            "An error",
+            "None"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Both calls return the single shared instance."
+        },
+        {
+          "question": "What is a common drawback of the Singleton pattern?",
+          "codeSnippet": null,
+          "options": [
+            "It acts like global state and makes testing harder",
+            "It uses too much memory",
+            "It can't have methods",
+            "It can't be imported"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Hidden shared state couples distant parts of a program."
+        }
+      ]
+    },
+    {
+      "title": "Factory Pattern",
+      "category": "DesignPatterns",
+      "difficulty": "Beginner",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Factory",
+            "text": "The **Factory** pattern moves object creation into a dedicated method or class. Callers ask the factory for *\"a car\"* and get back the right object, without calling constructors or knowing concrete class names."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Ordering at a restaurant",
+          "data": {
+            "markdown": "You order *\"pasta\"* from the menu; the kitchen decides which chef, pan and recipe to use. You never walk into the kitchen.\n\nA factory works the same way:\n\n```python\nvehicle = VehicleFactory.create(\"car\")   # which class? the factory decides\nvehicle.drive()\n```\n\nWhen you add a `Truck`, only the factory changes — not the dozens of places that create vehicles."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pattern families (Gang of Four)",
+          "data": {
+            "headers": [
+              "Family",
+              "Solves",
+              "Patterns in this course"
+            ],
+            "rows": [
+              [
+                "Creational",
+                "How objects are created",
+                "Singleton, Factory"
+              ],
+              [
+                "Structural",
+                "How objects are composed",
+                "Decorator"
+              ],
+              [
+                "Behavioural",
+                "How objects communicate",
+                "Observer, Strategy"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Direct construction vs factory",
+          "data": {
+            "headers": [
+              "",
+              "Car() / Bike() everywhere",
+              "VehicleFactory.create(kind)"
+            ],
+            "rows": [
+              [
+                "Callers know concrete classes",
+                "Yes",
+                "No"
+              ],
+              [
+                "Add a new vehicle",
+                "Update every caller",
+                "Update the factory"
+              ],
+              [
+                "Choose type from config / user input",
+                "if/elif at each call site",
+                "One lookup in the factory"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "tip",
+            "text": "Factories pair well with polymorphism: every product shares an interface (here `drive()`), so callers don't care which one they got."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Centralise creation logic in one place.",
+              "Callers depend on the product interface, not concrete classes.",
+              "Invalid requests can be rejected in one spot (e.g. ValueError)."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass VehicleFactory {\n  {static} +create(vehicle_type) : Vehicle\n}\ninterface Vehicle {\n  +drive()\n}\nclass Car\nclass Bike\nVehicle <|.. Car\nVehicle <|.. Bike\nVehicleFactory ..> Car : creates\nVehicleFactory ..> Bike : creates\n@enduml",
+            "caption": "Callers only talk to VehicleFactory and the Vehicle interface."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "10 Design Patterns Explained in 10 Minutes",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=tv-_1er1mWI",
+            "caption": "Fireship — a fast tour of common Gang of Four patterns."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Vehicle Factory",
+          "steps": [
+            {
+              "match": "class Car:",
+              "title": "The products",
+              "explanation": "`Car` and `Bike` share the same interface: a `drive()` method.",
+              "variables": [
+                {
+                  "name": "Car",
+                  "value": "<class Car>"
+                },
+                {
+                  "name": "Bike",
+                  "value": "<class Bike>"
+                }
+              ]
+            },
+            {
+              "match": "def create(vehicle_type: str):",
+              "title": "The factory method",
+              "explanation": "A static method — you call it on the class, no factory object needed.",
+              "variables": []
+            },
+            {
+              "match": "vehicles = {\"car\": Car, \"bike\": Bike}",
+              "title": "A registry of classes",
+              "explanation": "Classes are objects in Python, so they can be stored in a dictionary.",
+              "variables": [
+                {
+                  "name": "vehicles",
+                  "value": "{\"car\": Car, \"bike\": Bike}"
+                }
+              ]
+            },
+            {
+              "match": "VehicleFactory.create(\"car\").drive()",
+              "title": "Ask for a car",
+              "explanation": "The caller only passes a string; it never mentions the `Car` class.",
+              "variables": [
+                {
+                  "name": "vehicle_type",
+                  "value": "\"car\""
+                }
+              ]
+            },
+            {
+              "match": "cls = vehicles.get(vehicle_type.lower())",
+              "title": "Look up the class",
+              "explanation": "The factory finds `Car` in the registry. Unknown names return None and raise ValueError.",
+              "variables": [
+                {
+                  "name": "cls",
+                  "value": "Car"
+                }
+              ]
+            },
+            {
+              "match": "return cls()",
+              "title": "Create and return",
+              "explanation": "Only the factory calls the constructor.",
+              "output": "Driving a car.",
+              "variables": [
+                {
+                  "name": "cls",
+                  "value": "Car"
+                }
+              ]
+            },
+            {
+              "match": "VehicleFactory.create(\"bike\").drive()",
+              "title": "Same call, different product",
+              "explanation": "Asking for \"bike\" returns a Bike.",
+              "predict": "What will be printed?",
+              "answer": "Riding a bike.",
+              "output": "Driving a car.\nRiding a bike.",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Shape factory",
+          "difficulty": "Easy",
+          "instructions": "Write a `ShapeFactory` with a static method `create(kind, size)`:\n\n- `\"square\"` → `Square(size)` whose `area()` is size × size\n- `\"circle\"` → `Circle(size)` whose `area()` is `round(math.pi * size ** 2, 2)`\n- The `kind` is **case-insensitive** (`\"CIRCLE\"` works).\n- Anything else raises `ValueError(\"Unknown shape: <kind>\")`.",
+          "starterCode": "import math\n\n\nclass Square:\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\n\n# TODO: Circle and ShapeFactory\n",
+          "solutionCode": "import math\n\n\nclass Square:\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\n\nclass Circle:\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        return round(math.pi * self.radius ** 2, 2)\n\n\nclass ShapeFactory:\n    @staticmethod\n    def create(kind, size):\n        shapes = {\"square\": Square, \"circle\": Circle}\n        cls = shapes.get(kind.lower())\n        if cls is None:\n            raise ValueError(f\"Unknown shape: {kind}\")\n        return cls(size)\n",
+          "hints": [
+            "Mirror the VehicleFactory: a dict from name → class.",
+            "Use `kind.lower()` for the lookup.",
+            "Raise with the original text: `raise ValueError(f\"Unknown shape: {kind}\")`."
+          ],
+          "testCases": [
+            {
+              "name": "creates a square",
+              "code": "print(ShapeFactory.create(\"square\", 3).area())",
+              "expectedOutput": "9"
+            },
+            {
+              "name": "case-insensitive circle",
+              "code": "print(ShapeFactory.create(\"CIRCLE\", 1).area())",
+              "expectedOutput": "3.14"
+            },
+            {
+              "name": "rejects unknown shapes",
+              "code": "try:\n    ShapeFactory.create(\"hexagon\", 2)\nexcept ValueError as e:\n    print(\"error:\", e)",
+              "expectedOutput": "error: Unknown shape: hexagon"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the main idea of the Factory pattern?",
+          "codeSnippet": null,
+          "options": [
+            "Centralise object creation so callers don't call constructors directly",
+            "Allow only one instance",
+            "Wrap objects to add behaviour",
+            "Notify subscribers of changes"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Creation logic lives in one place."
+        },
+        {
+          "question": "To add a `Truck` to VehicleFactory you need…",
+          "codeSnippet": null,
+          "options": [
+            "a Truck class and one new dictionary entry",
+            "to change every caller",
+            "to change Car and Bike",
+            "nothing at all"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Callers keep calling `create(\"truck\")`."
+        },
+        {
+          "question": "What happens here?",
+          "codeSnippet": "VehicleFactory.create(\"plane\")",
+          "options": [
+            "ValueError: Unknown vehicle: plane",
+            "It returns None",
+            "It creates a Car",
+            "It prints Flying"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The lookup fails, so the factory raises ValueError."
+        }
+      ]
+    },
+    {
+      "title": "Observer Pattern",
+      "category": "DesignPatterns",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Observer",
+            "text": "The **Observer** pattern defines a **one-to-many** relationship: when one object (the *subject* or *publisher*) changes or emits an event, all its registered *observers* (subscribers) are notified automatically."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "YouTube subscriptions",
+          "data": {
+            "markdown": "When you subscribe to a channel, you don't keep checking for new videos — the channel **notifies** you.\nThe channel doesn't know or care who you are; it just keeps a list of subscribers and tells each one.\n\nIn code the subject keeps a list of callbacks (or observer objects) and loops over them when something happens:\n\n```python\ndef publish(self, event):\n    for fn in self._subscribers:\n        fn(event)\n```"
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pattern families (Gang of Four)",
+          "data": {
+            "headers": [
+              "Family",
+              "Solves",
+              "Patterns in this course"
+            ],
+            "rows": [
+              [
+                "Creational",
+                "How objects are created",
+                "Singleton, Factory"
+              ],
+              [
+                "Structural",
+                "How objects are composed",
+                "Decorator"
+              ],
+              [
+                "Behavioural",
+                "How objects communicate",
+                "Observer, Strategy"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Roles",
+          "data": {
+            "headers": [
+              "Role",
+              "Responsibility",
+              "In the example"
+            ],
+            "rows": [
+              [
+                "Subject / publisher",
+                "Keeps a list of observers and notifies them",
+                "EventBus"
+              ],
+              [
+                "Observer / subscriber",
+                "Reacts to notifications",
+                "the logger and email lambdas"
+              ],
+              [
+                "subscribe()",
+                "Add an observer",
+                "bus.subscribe(fn)"
+              ],
+              [
+                "publish() / notify()",
+                "Tell every observer",
+                "bus.publish(event)"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "tip",
+            "text": "GUI buttons (`on_click`), event buses and spreadsheet cells that update when others change are all Observer in action."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "The subject doesn't know what observers do — loose coupling.",
+              "Observers can be added or removed at runtime.",
+              "Only observers subscribed *before* an event receive it."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Sequence diagram",
+          "data": {
+            "plantUml": "@startuml\nactor Code\nparticipant EventBus as bus\nparticipant Logger\nparticipant EmailService\nCode -> bus : subscribe(Logger)\nCode -> bus : subscribe(EmailService)\nCode -> bus : publish(\"user.registered\")\nbus -> Logger : notify(event)\nbus -> EmailService : notify(event)\n@enduml",
+            "caption": "One publish call fans out to every subscriber in order."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass EventBus {\n  -_subscribers : list\n  +subscribe(fn)\n  +publish(event)\n}\ninterface Observer {\n  +__call__(event)\n}\nEventBus o-- \"0..*\" Observer : notifies\n@enduml",
+            "caption": "The bus holds any number of observers."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Video",
+          "title": "10 Design Patterns Explained in 10 Minutes",
+          "data": {
+            "url": "https://www.youtube.com/watch?v=tv-_1er1mWI",
+            "caption": "Fireship — a fast tour of common Gang of Four patterns."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Event System",
+          "steps": [
+            {
+              "match": "self._subscribers = []",
+              "title": "The subject's list",
+              "explanation": "The EventBus keeps a list of functions to call when an event happens.",
+              "variables": [
+                {
+                  "name": "bus._subscribers",
+                  "value": "[]"
+                }
+              ]
+            },
+            {
+              "match": "bus = EventBus()",
+              "title": "Create the subject",
+              "explanation": "One bus, no subscribers yet.",
+              "variables": [
+                {
+                  "name": "bus._subscribers",
+                  "value": "[]"
+                }
+              ]
+            },
+            {
+              "match": "bus.subscribe(lambda e: print(f\"Logger received",
+              "title": "Register observer 1",
+              "explanation": "A small function that logs events is added to the list.",
+              "variables": [
+                {
+                  "name": "bus._subscribers",
+                  "value": "[logger]"
+                }
+              ]
+            },
+            {
+              "match": "bus.subscribe(lambda e: print(f\"EmailService",
+              "title": "Register observer 2",
+              "explanation": "A second, independent observer. The bus doesn't know what either one does.",
+              "variables": [
+                {
+                  "name": "bus._subscribers",
+                  "value": "[logger, email]"
+                }
+              ]
+            },
+            {
+              "match": "bus.publish(\"user.registered\")",
+              "title": "Publish an event",
+              "explanation": "The bus loops over its subscribers and calls each with the event.",
+              "predict": "How many lines will this print?",
+              "answer": "Two — one per subscriber.",
+              "output": "Logger received: user.registered\nEmailService received: user.registered",
+              "variables": []
+            },
+            {
+              "match": "bus.publish(\"order.placed\")",
+              "title": "Publish another",
+              "explanation": "Every subscriber is notified again, in the order they subscribed.",
+              "output": "Logger received: user.registered\nEmailService received: user.registered\nLogger received: order.placed\nEmailService received: order.placed",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Weather station",
+          "difficulty": "Medium",
+          "instructions": "Build a `WeatherStation` subject:\n\n1. `subscribe(observer)` and `unsubscribe(observer)` manage a list of observers.\n2. `set_temperature(t)` stores the value and calls `observer.update(t)` on **every** subscribed observer, in subscription order.\n\nAnd two observers:\n\n- `PhoneDisplay.update(t)` prints `\"Phone shows <t> degrees\"`\n- `Alarm.update(t)` prints `\"ALARM: too hot!\"` only when `t > 35`",
+          "starterCode": "class WeatherStation:\n    def __init__(self):\n        self.temperature = None\n        # TODO: keep a list of observers\n\n    def set_temperature(self, t):\n        self.temperature = t\n        # TODO: notify every observer\n\n\nclass PhoneDisplay:\n    def update(self, t):\n        print(f\"Phone shows {t} degrees\")\n",
+          "solutionCode": "class WeatherStation:\n    def __init__(self):\n        self.temperature = None\n        self._observers = []\n\n    def subscribe(self, observer):\n        self._observers.append(observer)\n\n    def unsubscribe(self, observer):\n        self._observers.remove(observer)\n\n    def set_temperature(self, t):\n        self.temperature = t\n        for observer in self._observers:\n            observer.update(t)\n\n\nclass PhoneDisplay:\n    def update(self, t):\n        print(f\"Phone shows {t} degrees\")\n\n\nclass Alarm:\n    def update(self, t):\n        if t > 35:\n            print(\"ALARM: too hot!\")\n",
+          "hints": [
+            "Store observers in `self._observers = []`.",
+            "`set_temperature` loops: `for o in self._observers: o.update(t)`.",
+            "Alarm only prints inside `if t > 35:`."
+          ],
+          "testCases": [
+            {
+              "name": "notifies a subscriber",
+              "code": "s = WeatherStation()\ns.subscribe(PhoneDisplay())\ns.set_temperature(21)",
+              "expectedOutput": "Phone shows 21 degrees"
+            },
+            {
+              "name": "notifies all, in order",
+              "code": "s = WeatherStation()\ns.subscribe(PhoneDisplay())\ns.subscribe(Alarm())\ns.set_temperature(20)\ns.set_temperature(40)",
+              "expectedOutput": "Phone shows 20 degrees\nPhone shows 40 degrees\nALARM: too hot!"
+            },
+            {
+              "name": "unsubscribe stops notifications",
+              "code": "s = WeatherStation()\np = PhoneDisplay()\ns.subscribe(p)\ns.unsubscribe(p)\ns.set_temperature(30)\nprint(\"done\")",
+              "expectedOutput": "done"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "The Observer pattern defines…",
+          "codeSnippet": null,
+          "options": [
+            "a one-to-many relationship where observers are notified of changes",
+            "a single shared instance",
+            "a way to create objects",
+            "a wrapper that adds behaviour"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "One subject, many observers."
+        },
+        {
+          "question": "Using the EventBus from the example, what is printed?",
+          "codeSnippet": "bus = EventBus()\nbus.publish(\"start\")\nbus.subscribe(lambda e: print(\"got\", e))\nbus.publish(\"next\")",
+          "options": [
+            "Only \"got next\"",
+            "\"got start\" and then \"got next\"",
+            "Nothing",
+            "An error"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The subscriber was added after \"start\" was published, so it only sees \"next\"."
+        },
+        {
+          "question": "What does the Observer pattern decouple?",
+          "codeSnippet": null,
+          "options": [
+            "The publisher from the code that reacts to its events",
+            "Classes from their methods",
+            "Data from the database",
+            "Threads from processes"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The publisher doesn't need to know what its subscribers do."
+        }
+      ]
+    },
+    {
+      "title": "Strategy Pattern",
+      "category": "DesignPatterns",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Strategy",
+            "text": "The **Strategy** pattern defines a family of interchangeable algorithms, puts each in its own class, and lets the client (the *context*) choose one at runtime — without changing the context's code."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Getting to the airport",
+          "data": {
+            "markdown": "You can drive, take a bus or call a taxi. The *goal* is the same; the *strategy* differs, and you can switch based on time or budget.\n\nIn code, the **context** (`Sorter`) holds a reference to a strategy object and delegates the work to it:\n\n```python\nsorter = Sorter(BubbleSort())\nsorter.sort(data)            # uses bubble sort\nsorter.strategy = BuiltinSort()\nsorter.sort(data)            # same Sorter, different algorithm\n```"
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pattern families (Gang of Four)",
+          "data": {
+            "headers": [
+              "Family",
+              "Solves",
+              "Patterns in this course"
+            ],
+            "rows": [
+              [
+                "Creational",
+                "How objects are created",
+                "Singleton, Factory"
+              ],
+              [
+                "Structural",
+                "How objects are composed",
+                "Decorator"
+              ],
+              [
+                "Behavioural",
+                "How objects communicate",
+                "Observer, Strategy"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "if/elif vs Strategy",
+          "data": {
+            "headers": [
+              "",
+              "if algorithm == \"bubble\": ...",
+              "Strategy objects"
+            ],
+            "rows": [
+              [
+                "Add an algorithm",
+                "Edit the context",
+                "Add a new class"
+              ],
+              [
+                "Switch at runtime",
+                "Pass a flag around",
+                "Swap the strategy object"
+              ],
+              [
+                "Test one algorithm",
+                "Must go through the context",
+                "Test the class directly"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "info",
+            "text": "Strategy is the Open/Closed Principle applied to algorithms: the context is closed for modification, the set of strategies is open for extension."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "Each algorithm lives in its own class with a shared interface.",
+              "The context delegates to whatever strategy it holds.",
+              "Strategies can be swapped at runtime."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\nclass Sorter {\n  -strategy : SortStrategy\n  +sort(data)\n}\ninterface SortStrategy {\n  +sort(data)\n}\nclass BubbleSort\nclass BuiltinSort\nSorter o-- SortStrategy : delegates to\nSortStrategy <|.. BubbleSort\nSortStrategy <|.. BuiltinSort\n@enduml",
+            "caption": "Sorter holds a strategy and forwards sort() to it."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Sorting Strategy",
+          "steps": [
+            {
+              "match": "class SortStrategy(ABC):",
+              "title": "The strategy interface",
+              "explanation": "Every sorting algorithm promises a `sort(data)` method.",
+              "variables": [
+                {
+                  "name": "SortStrategy",
+                  "value": "<abstract class>"
+                }
+              ]
+            },
+            {
+              "match": "class BubbleSort(SortStrategy):",
+              "title": "Strategy A",
+              "explanation": "A hand-written bubble sort — one interchangeable algorithm.",
+              "variables": [
+                {
+                  "name": "BubbleSort",
+                  "value": "→ SortStrategy"
+                }
+              ]
+            },
+            {
+              "match": "class BuiltinSort(SortStrategy):",
+              "title": "Strategy B",
+              "explanation": "Uses Python's built-in `sorted()` — another algorithm, same interface.",
+              "variables": [
+                {
+                  "name": "BubbleSort",
+                  "value": "→ SortStrategy"
+                },
+                {
+                  "name": "BuiltinSort",
+                  "value": "→ SortStrategy"
+                }
+              ]
+            },
+            {
+              "match": "class Sorter:",
+              "title": "The context",
+              "explanation": "`Sorter` holds a strategy and delegates to it. It contains no sorting logic itself.",
+              "variables": []
+            },
+            {
+              "match": "data = [5, 2, 8, 1, 9]",
+              "title": "Some data",
+              "explanation": "The unsorted input.",
+              "variables": [
+                {
+                  "name": "data",
+                  "value": "[5, 2, 8, 1, 9]"
+                }
+              ]
+            },
+            {
+              "match": "print(Sorter(BubbleSort()).sort(data))",
+              "title": "Run with strategy A",
+              "explanation": "Sorter forwards to BubbleSort.sort(). Note it copies the list, so `data` is unchanged.",
+              "output": "[1, 2, 5, 8, 9]",
+              "variables": [
+                {
+                  "name": "data",
+                  "value": "[5, 2, 8, 1, 9]"
+                }
+              ]
+            },
+            {
+              "match": "print(Sorter(BuiltinSort()).sort(data))",
+              "title": "Swap to strategy B",
+              "explanation": "Same context, different algorithm — and the same result.",
+              "predict": "Will the output differ from the first line?",
+              "answer": "No — both strategies sort correctly: [1, 2, 5, 8, 9]",
+              "output": "[1, 2, 5, 8, 9]\n[1, 2, 5, 8, 9]",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Checkout fees",
+          "difficulty": "Medium",
+          "instructions": "Different payment methods charge different fees. Use the Strategy pattern:\n\n1. Strategies with a `fee(amount)` method:\n   - `CardFee` → 2% of the amount\n   - `CryptoFee` → flat `1.5`\n   - `NoFee` → `0`\n2. `Checkout(strategy)` has `total(amount)` returning `amount + strategy.fee(amount)`,\n   and `set_strategy(strategy)` to switch at runtime.",
+          "starterCode": "class Checkout:\n    def __init__(self, method):\n        self.method = method\n\n    def total(self, amount):\n        if self.method == \"card\":\n            return amount + amount * 0.02\n        elif self.method == \"crypto\":\n            return amount + 1.5\n        return amount\n\n\nprint(Checkout(\"card\").total(100))\n",
+          "solutionCode": "class CardFee:\n    def fee(self, amount):\n        return amount * 0.02\n\n\nclass CryptoFee:\n    def fee(self, amount):\n        return 1.5\n\n\nclass NoFee:\n    def fee(self, amount):\n        return 0\n\n\nclass Checkout:\n    def __init__(self, strategy):\n        self.strategy = strategy\n\n    def set_strategy(self, strategy):\n        self.strategy = strategy\n\n    def total(self, amount):\n        return amount + self.strategy.fee(amount)\n",
+          "hints": [
+            "Each fee rule becomes a tiny class with a `fee(amount)` method.",
+            "Checkout stores the strategy object and calls `self.strategy.fee(amount)`.",
+            "`set_strategy` just replaces `self.strategy`."
+          ],
+          "testCases": [
+            {
+              "name": "card fee",
+              "code": "print(f\"{Checkout(CardFee()).total(100):.2f}\")",
+              "expectedOutput": "102.00"
+            },
+            {
+              "name": "crypto fee",
+              "code": "print(f\"{Checkout(CryptoFee()).total(10):.2f}\")",
+              "expectedOutput": "11.50"
+            },
+            {
+              "name": "switch strategy at runtime",
+              "code": "c = Checkout(NoFee())\nprint(f\"{c.total(50):.2f}\")\nc.set_strategy(CardFee())\nprint(f\"{c.total(50):.2f}\")",
+              "expectedOutput": "50.00\n51.00"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "The Strategy pattern lets you…",
+          "codeSnippet": null,
+          "options": [
+            "swap interchangeable algorithms at runtime",
+            "guarantee a single instance",
+            "notify many objects of a change",
+            "create objects without constructors"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "The context delegates to a replaceable strategy object."
+        },
+        {
+          "question": "`Sorter(BubbleSort())` vs `Sorter(BuiltinSort())` — what changes?",
+          "codeSnippet": null,
+          "options": [
+            "Only the algorithm used; Sorter's code stays the same",
+            "The Sorter class is rewritten",
+            "The data type",
+            "Nothing at all"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "That's the point: the context is untouched."
+        },
+        {
+          "question": "Compared to an if/elif chain, a key benefit of Strategy is…",
+          "codeSnippet": null,
+          "options": [
+            "new algorithms can be added without editing the context",
+            "it always runs faster",
+            "it needs fewer classes",
+            "it avoids functions"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Strategy follows the Open/Closed Principle."
+        }
+      ]
+    },
+    {
+      "title": "Decorator Pattern",
+      "category": "DesignPatterns",
+      "difficulty": "Intermediate",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "Definition",
+          "title": null,
+          "data": {
+            "term": "Decorator",
+            "text": "The **Decorator** pattern adds responsibilities to an object **dynamically** by wrapping it in another object that has the **same interface**. Wrappers can be stacked, each adding a little behaviour."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "RichText",
+          "title": "Coffee shop add-ons",
+          "data": {
+            "markdown": "Start with a plain coffee. Add milk: it's still a coffee, just more expensive. Add sugar on top: still a coffee.\n\nEach add-on **wraps** the previous drink and forwards calls to it, adding its own bit:\n\n```python\norder = SugarDecorator(MilkDecorator(Coffee()))\norder.cost()   # 5 + 2 + 1 = 8\n```\n\nWithout decorators you'd need a subclass for every combination — `CoffeeWithMilk`, `CoffeeWithSugar`, `CoffeeWithMilkAndSugar`, …"
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Pattern families (Gang of Four)",
+          "data": {
+            "headers": [
+              "Family",
+              "Solves",
+              "Patterns in this course"
+            ],
+            "rows": [
+              [
+                "Creational",
+                "How objects are created",
+                "Singleton, Factory"
+              ],
+              [
+                "Structural",
+                "How objects are composed",
+                "Decorator"
+              ],
+              [
+                "Behavioural",
+                "How objects communicate",
+                "Observer, Strategy"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Table",
+          "title": "Subclassing vs decorating",
+          "data": {
+            "headers": [
+              "",
+              "Subclass per combination",
+              "Decorators"
+            ],
+            "rows": [
+              [
+                "Milk + sugar + cream",
+                "CoffeeWithMilkSugarCream class",
+                "Stack three wrappers"
+              ],
+              [
+                "Classes needed for 3 add-ons",
+                "Up to 7 combinations",
+                "3 decorators"
+              ],
+              [
+                "Change at runtime",
+                "No",
+                "Yes — wrap as needed"
+              ]
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Callout",
+          "title": null,
+          "data": {
+            "variant": "info",
+            "text": "Python's `@decorator` syntax for functions is related but not identical: it wraps *functions*, while the Decorator pattern wraps *objects*. The idea — wrap and extend — is the same."
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "KeyPoints",
+          "title": "Key takeaways",
+          "data": {
+            "items": [
+              "A decorator has the same interface as the object it wraps.",
+              "It forwards calls to the wrapped object and adds behaviour.",
+              "Decorators stack to build combinations at runtime."
+            ]
+          },
+          "step": "Concept"
+        },
+        {
+          "type": "Diagram",
+          "title": "Class diagram",
+          "data": {
+            "plantUml": "@startuml\ninterface Beverage {\n  +cost()\n  +description()\n}\nclass Coffee\nclass MilkDecorator {\n  -_coffee : Beverage\n}\nclass SugarDecorator {\n  -_coffee : Beverage\n}\nBeverage <|.. Coffee\nBeverage <|.. MilkDecorator\nBeverage <|.. SugarDecorator\nMilkDecorator o-- Beverage : wraps\nSugarDecorator o-- Beverage : wraps\n@enduml",
+            "caption": "Each decorator is a Beverage that wraps another Beverage."
+          },
+          "step": "Visualize"
+        },
+        {
+          "type": "Diagram",
+          "title": "Wrapping at runtime",
+          "data": {
+            "plantUml": "@startuml\nobject \"SugarDecorator\" as S\nobject \"MilkDecorator\" as M\nobject \"Coffee\" as C\nS *-- M : wraps\nM *-- C : wraps\nnote right of S : cost() = M.cost() + 1\nnote right of M : cost() = C.cost() + 2\nnote right of C : cost() = 5\n@enduml",
+            "caption": "Calls travel inward, and each layer adds to the result on the way out."
+          },
+          "step": "Visualize"
+        }
+      ],
+      "walkthroughs": [
+        {
+          "exampleTitle": "Coffee Decorator",
+          "steps": [
+            {
+              "match": "class Coffee:",
+              "title": "The base component",
+              "explanation": "A plain coffee costs 5 and describes itself as \"Basic Coffee\".",
+              "variables": [
+                {
+                  "name": "Coffee",
+                  "value": "cost 5"
+                }
+              ]
+            },
+            {
+              "match": "class MilkDecorator:",
+              "title": "A wrapper",
+              "explanation": "MilkDecorator has the **same methods** as Coffee, and stores the object it wraps in `_coffee`.",
+              "variables": [
+                {
+                  "name": "MilkDecorator",
+                  "value": "wraps any coffee, +2"
+                }
+              ]
+            },
+            {
+              "match": "def cost(self): return self._coffee.cost() + 2",
+              "title": "Forward and add",
+              "explanation": "The decorator asks the wrapped object for its cost, then adds its own 2.",
+              "variables": []
+            },
+            {
+              "match": "order = SugarDecorator(MilkDecorator(Coffee()))",
+              "title": "Stack the wrappers",
+              "explanation": "Read inside-out: a Coffee, wrapped in Milk, wrapped in Sugar.",
+              "variables": [
+                {
+                  "name": "order",
+                  "value": "Sugar(Milk(Coffee))"
+                }
+              ]
+            },
+            {
+              "match": "print(order.description())",
+              "title": "Descriptions chain",
+              "explanation": "Each layer appends its own text to the inner description.",
+              "output": "Basic Coffee, Milk, Sugar",
+              "variables": [
+                {
+                  "name": "order",
+                  "value": "Sugar(Milk(Coffee))"
+                }
+              ]
+            },
+            {
+              "match": "print(f\"Total: ${order.cost()}\")",
+              "title": "Costs add up",
+              "explanation": "Sugar asks Milk, Milk asks Coffee: 5 + 2 + 1.",
+              "predict": "What is the total?",
+              "answer": "$8",
+              "output": "Basic Coffee, Milk, Sugar\nTotal: $8",
+              "variables": []
+            }
+          ]
+        }
+      ],
+      "challenges": [
+        {
+          "title": "Text formatting decorators",
+          "difficulty": "Easy",
+          "instructions": "`PlainText(text).render()` returns the text unchanged. Add three decorators that wrap **any** component with a `render()` method:\n\n- `BoldDecorator` → wraps the result in `<b>…</b>`\n- `ItalicDecorator` → wraps the result in `<i>…</i>`\n- `UpperDecorator` → upper-cases the whole result\n\nThey must stack in any order, e.g. `ItalicDecorator(BoldDecorator(PlainText(\"hi\")))`.",
+          "starterCode": "class PlainText:\n    def __init__(self, text):\n        self.text = text\n\n    def render(self):\n        return self.text\n\n\nclass BoldDecorator:\n    def __init__(self, component):\n        self.component = component\n\n    def render(self):\n        # TODO: wrap the inner result in <b>...</b>\n        pass\n\n\nprint(BoldDecorator(PlainText(\"hello\")).render())\n",
+          "solutionCode": "class PlainText:\n    def __init__(self, text):\n        self.text = text\n\n    def render(self):\n        return self.text\n\n\nclass BoldDecorator:\n    def __init__(self, component):\n        self.component = component\n\n    def render(self):\n        return f\"<b>{self.component.render()}</b>\"\n\n\nclass ItalicDecorator:\n    def __init__(self, component):\n        self.component = component\n\n    def render(self):\n        return f\"<i>{self.component.render()}</i>\"\n\n\nclass UpperDecorator:\n    def __init__(self, component):\n        self.component = component\n\n    def render(self):\n        return self.component.render().upper()\n",
+          "hints": [
+            "Each decorator stores the wrapped `component`.",
+            "Call `self.component.render()` first, then decorate the result.",
+            "UpperDecorator: `return self.component.render().upper()`."
+          ],
+          "testCases": [
+            {
+              "name": "bold",
+              "code": "print(BoldDecorator(PlainText(\"hi\")).render())",
+              "expectedOutput": "<b>hi</b>"
+            },
+            {
+              "name": "decorators stack",
+              "code": "print(ItalicDecorator(BoldDecorator(PlainText(\"hi\"))).render())",
+              "expectedOutput": "<i><b>hi</b></i>"
+            },
+            {
+              "name": "order matters",
+              "code": "print(UpperDecorator(ItalicDecorator(PlainText(\"hey\"))).render())",
+              "expectedOutput": "<I>HEY</I>"
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "question": "The Decorator pattern adds behaviour by…",
+          "codeSnippet": null,
+          "options": [
+            "wrapping an object in another object with the same interface",
+            "editing the original class",
+            "creating a subclass for every combination",
+            "using global flags"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Wrap, forward, extend."
+        },
+        {
+          "question": "Using the example classes, what does this print?",
+          "codeSnippet": "print(MilkDecorator(MilkDecorator(Coffee())).cost())",
+          "options": [
+            "7",
+            "9",
+            "5",
+            "An error"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "Two milk layers each add 2 to the base cost of 5."
+        },
+        {
+          "question": "Why prefer decorators over a `CoffeeWithMilkAndSugar` subclass?",
+          "codeSnippet": null,
+          "options": [
+            "Combinations would explode; decorators compose at runtime",
+            "Subclasses are not allowed in Python",
+            "Decorators are always faster",
+            "Subclasses cannot have methods"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "n add-ons would need up to 2ⁿ subclasses."
+        }
+      ]
+    }
+  ]
+}

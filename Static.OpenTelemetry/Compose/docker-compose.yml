@@ -1,0 +1,74 @@
+
+networks:
+  shared_network:
+    driver: bridge
+
+services:
+  
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.115.1
+    container_name: otel-collector
+    ports:
+      - 4317:4317 
+    volumes:
+      - ./otel-collector/otel-collector-config.yaml:/otel-local-config.yaml
+    command:
+      - --config=/otel-local-config.yaml
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.63.0
+    container_name: jaeger
+    ports:
+      - 16686:16686
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus-config.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - --enable-feature=extra-scrape-metrics
+      - --enable-feature=native-histograms
+      - --web.enable-otlp-receiver
+      - --web.enable-remote-write-receiver
+      - --config.file=/etc/prometheus/prometheus.yaml
+  
+  grafana:
+    image: grafana/grafana-oss:11.3.2
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/:/etc/grafana/provisioning/
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-exploretraces-app 
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/19924-asp-net-core.json
+
+  loki:
+    image: grafana/loki:3.1.0
+    container_name: loki
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
+    command: 
+      - --config.file=/etc/loki/local-config.yaml
+
+  tempo:
+    image: grafana/tempo:2.6.1
+    container_name: tempo
+    volumes:
+      - ./tempo/tempo-config.yaml:/etc/tempo/tempo.yaml
+    command:
+      - -config.file=/etc/tempo/tempo.yaml
+  seq:
+    image: datalust/seq:2024.3
+    container_name: seq
+    ports:
+      - 80:80
+    environment:
+      - ACCEPT_EULA=Y

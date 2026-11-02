@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create your .NET project | Abhishek Humagain</title>
+<style>
+:root{font:17px/1.6 system-ui;color:#e9edf4;background:#111319;color-scheme:dark}body{max-width:780px;margin:8vh auto;padding:24px}a{color:#9bc9ff}h1{font-size:clamp(2.3rem,6vw,4rem);line-height:1.08;letter-spacing:-.045em;margin:.5em 0}p{color:#b7becb}form{margin:2rem 0;padding:28px;background:#1d2028;border:1px solid #343947;border-radius:16px}label{display:block;font-weight:600}input,button{box-sizing:border-box;padding:14px 18px;font:inherit;border-radius:8px;margin-top:10px;width:100%}input{border:1px solid #637089;background:#111319;color:inherit}button{border:0;background:#bfd9ff;color:#14213b;font-weight:700;cursor:pointer}small{display:block;color:#b7becb;margin:10px 0}code{color:#bfd9ff}.pill{color:#b7d2ff;font-size:.85rem;text-transform:uppercase;letter-spacing:.15em}footer{border-top:1px solid #343947;margin-top:3rem;padding-top:1rem;font-size:.85rem}
+</style>
+<a href="https://www.abhishekhumagain.com.np/">← Abhishek Humagain</a>
+<main><p class="pill">Open source · .NET 10 · Keycloak</p>
+<h1>Your next project.<br>A working foundation.</h1>
+<p>Start with layered architecture, CQRS, validation, database transactions, and request tracing. Give it a name and download your renamed source.</p>
+<form action="/api/boilerplate/download" method="get">
+<label for="name">Project name</label>
+<input id="name" name="name" placeholder="MyProject" value="MyProject" pattern="[A-Z][A-Za-z0-9]{1,49}" minlength="2" maxlength="50" required aria-describedby="name-help">
+<small id="name-help">2–50 letters or digits, starting with an uppercase letter. The solution, projects, namespaces, and service names are renamed for you.</small>
+<button type="submit">Download project ZIP ↓</button>
+</form>
+<p>After extracting, copy <code>.env.example</code> to <code>.env</code>, then run <code>docker compose up --build</code>. See the included README for local setup and extension points.</p>
+<p>Includes PostgreSQL, Keycloak realm configuration, GitHub Actions, structured errors, and health endpoints. Application-specific sample modules are currently included; see the architecture audit in the download.</p></main>
+<footer>Created by Abhishek Humagain. MIT licensed source; dependency licenses apply separately.</footer></html>

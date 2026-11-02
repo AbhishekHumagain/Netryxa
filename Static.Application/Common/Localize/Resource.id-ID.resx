@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InvalidClassCode" xml:space="preserve">
+    <value>kode kelas tidak valid! Silahkan hubungi sekolah Anda.</value>
+  </data>
+  <data name="OpeningBalance" xml:space="preserve">
+    <value>Saldo awal</value>
+  </data>
+  <data name="Assignment Report" xml:space="preserve">
+    <value>Laporan Tugas</value>
+  </data>
+  <data name="Generated On" xml:space="preserve">
+    <value>Dibuat pada</value>
+  </data>
+  <data name="Sessions Report" xml:space="preserve">
+    <value>Laporan Sesi</value>
+  </data>
+  <data name="Assigned Date" xml:space="preserve">
+    <value>Tanggal ditugaskan</value>
+  </data>
+  <data name="Deadline Date" xml:space="preserve">
+    <value>Tanggal Tenggat waktu</value>
+  </data>
+  <data name="Available Date" xml:space="preserve">
+    <value>Tanggal tersedia</value>
+  </data>
+  <data name="Avg Grade" xml:space="preserve">
+    <value>Nilai rata-rata</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Dikirim</value>
+  </data>
+  <data name="Pending/Missed" xml:space="preserve">
+    <value>Tertunda/terlewat</value>
+  </data>
+  <data name="Graded" xml:space="preserve">
+    <value>Dinilai</value>
+  </data>
+  <data name="Missed" xml:space="preserve">
+    <value>Terlewat</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Tertunda</value>
+  </data>
+  <data name="Student Name" xml:space="preserve">
+    <value>Nama siswa</value>
+  </data>
+  <data name="S.N" xml:space="preserve">
+    <value>S.N</value>
+  </data>
+  <data name="Submission Date" xml:space="preserve">
+    <value>Tanggal penyerahan</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Nilai</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>Hadir</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Tidak Hadir</value>
+  </data>
+  <data name="Sick" xml:space="preserve">
+    <value>Sakit</value>
+  </data>
+  <data name="Permit" xml:space="preserve">
+    <value>Izin</value>
+  </data>
+  <data name="External Platform Used" xml:space="preserve">
+    <value>Platform Eksternal Digunakan</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+</root>

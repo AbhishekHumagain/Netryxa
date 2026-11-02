@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="AWSSDK.Core"/>
+    <PackageReference Include="AWSSDK.S3"/>
+    <PackageReference Include="ClosedXML"/>
+    <PackageReference Include="Dapper"/>
+    <PackageReference Include="FluentValidation"/>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
+    <PackageReference Include="Google.Protobuf"/>
+    <PackageReference Include="Grpc.Net.ClientFactory"/>
+    <PackageReference Include="Grpc.Tools"/>
+    <PackageReference Include="HtmlSanitizer"/>
+    <PackageReference Include="MediatR"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
+    <PackageReference Include="Microsoft.Extensions.Localization"/>
+    <PackageReference Include="Newtonsoft.Json"/>
+    <PackageReference Include="SharpZipLib"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Static.Cryptography\Static.Cryptography.csproj" />
+    <ProjectReference Include="..\Static.Domain\Static.Domain.csproj" />
+    <ProjectReference Include="..\Static.Helper\Static.Helper.csproj" />
+    <ProjectReference Include="..\Static.Identity\Static.Identity.csproj" />
+    <ProjectReference Include="..\Static.MediatR\Static.MediatR.csproj" />
+    <ProjectReference Include="..\Static.Protos\Static.Protos.csproj" />
+    <ProjectReference Include="..\Static.QueryUtils\Static.QueryUtils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Common\Localize\Resource.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Common\Localize\Resource.fr-FR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.fr-FR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Common\Localize\Resource.id-ID.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.id-ID.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Common\Localize\Resource.en-US.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Common\Localize\Resource.fr-FR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Common\Localize\Resource.id-ID.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.id-ID.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Backoffice\User\" />
+    <Folder Include="Common\Factories\" />
+    <Folder Include="Common\IdorProtectedProperties\" />
+    <Folder Include="Common\Interfaces\Shared\DefaultSetting\" />
+    <Folder Include="EndUser\" />
+  </ItemGroup>
+</Project>

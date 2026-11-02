@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Static.EntityFrameworkCore\Static.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Static.MediatR\Static.MediatR.csproj" />
+  </ItemGroup>
+  
+</Project>

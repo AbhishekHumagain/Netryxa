@@ -1,0 +1,67 @@
+apiVersion: 1
+
+prune: true
+
+datasources:
+  
+  - name: Loki
+    type: loki
+    uid: loki-ds1
+    access: proxy
+    url: http://loki:3100
+    basicAuth: false
+    isDefault: false
+    editable: false
+
+  - name: Jaeger
+    type: jaeger
+    uid: jaeger-ds1
+    access: proxy
+    url: http://jaeger:16686
+    basicAuth: false
+    isDefault: false
+    editable: false
+
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus-ds1
+    access: proxy
+    url: http://prometheus:9090
+    basicAuth: false
+    isDefault: false
+    editable: false
+    
+  - name: Tempo
+    type: tempo
+    uid: tempo-ds1
+    access: proxy
+    url: http://tempo:3200
+    basicAuth: false
+    isDefault: true
+    editable: false
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: loki-ds1
+        spanStartTimeShift: -5m
+        spanEndTimeShift: 5m
+        filterByTraceID: true
+        filterBySpanID: true
+      tracesToMetrics:
+        datasourceUid: prometheus-ds1
+        spanStartTimeShift: 5m
+        spanEndTimeShift: -5m      
+      serviceMap:
+        datasourceUid: prometheus-ds1
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false
+      traceQuery:
+        timeShiftEnabled: true
+        spanStartTimeShift: 5m
+        spanEndTimeShift: -5m
+      spanBar:
+        type: Tag
+        tag: http.path
+      streamingEnabled:
+        search: true

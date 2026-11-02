@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Static.Protos";
+
+package ap.static.city;
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+service City {
+  rpc GetHealthStatus(google.protobuf.Empty) returns (common.GetHealthStatusResponse);
+  rpc GetCityDetails(common.IdRequest) returns (CityDetailMessage);
+}
+
+message CityDetailMessage {
+  common.StatusResponse statusResponse = 1;
+  string name = 2;
+}

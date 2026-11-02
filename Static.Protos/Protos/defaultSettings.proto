@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+option csharp_namespace = "Static.Protos";
+
+package ap.static.defaultSettings;
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+service DefaultSettings {
+  rpc GetDefaultSettingDetails (google.protobuf.Empty) returns (LockoutDetailMessage);
+}
+
+message LockoutDetailMessage {
+  LockoutSetting lockout_setting = 2;
+  SuspiciousAccountSetting suspicious_account_setting = 3;
+  StudentClassLimitSetting student_class_limit_setting = 4;
+  OtpSetting otp_setting = 5;
+  GuardianKeyLockoutSetting guardian_key_lockout_setting = 6;
+  BatchRolloutSetting batch_rollout_setting = 7;
+  CouponLockoutSetting coupon_lockout_setting = 8;
+  UploadSetting upload_setting = 9;
+  DownloadLimitSetting download_limit_setting = 10;
+}
+
+
+message LockoutSetting {
+  int32 LockoutTimeSpan = 1; // in minutes
+  int32 MaxFailedAttempt  = 2;
+}
+
+message SuspiciousAccountSetting {
+  int32 Duration = 1;
+  int32 VideoWatchCount = 2;
+  int32 SuspiciousAttemptThreshold = 3;
+}
+
+message StudentClassLimitSetting {
+  int32 LimitValue = 1;
+}
+
+message OtpSetting {
+  int32 OtpDuration = 1;
+}
+
+message GuardianKeyLockoutSetting {
+  int32 DefaultLockoutTimeSpan = 1;
+  int32 MaxFailedRedeemAttempts = 2;
+  int32 MaxChildCount = 3;
+}
+
+message BatchRolloutSetting {
+  bool BatchRollOut = 1;
+  int32 Threshold = 2;
+}
+
+message CouponLockoutSetting {
+  int32 DefaultLockoutTimeSpan = 1;
+  int32 MaxFailedRedeemAttempts = 2;
+}
+
+message UploadSetting {
+  int32 AnnouncementSizeLimitValue = 1; 
+  int32 UserResourceSizeLimitValue =  2;
+  int32 OtherSizeLimitValue = 3;
+  int32 AssignmentAttachmentStudentSizeLimitValue = 4;
+  int32 AssignmentAttachmentTeacherSizeLimitValue = 5;
+  int32 SessionAttachmentStudentSizeLimitValue = 6;
+  int32 SessionAttachmentTeacherSizeLimitValue = 7;
+  int32 AnnouncementUploadLimitValue = 8;
+  int32 UserResourceUploadLimitValue = 9;
+  int32 OtherUploadLimitValue = 10;
+  int32 AssignmentAttachmentStudentUploadLimitValue = 11;
+  int32 AssignmentAttachmentTeacherUploadLimitValue = 12;
+  int32 SessionAttachmentStudentUploadLimitValue = 13;
+  int32 SessionAttachmentTeacherUploadLimitValue = 14;
+}
+
+message DownloadLimitSetting {
+  int32 EbookDownloadLimit = 1; 
+  int32 IvyDownloadLimit = 2;
+}

@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv"/>
+    <PackageReference Include="FluentValidation"/>
+    <PackageReference Include="FluentValidation.AspNetCore"/>
+    <PackageReference Include="Grpc.AspNetCore"/>
+    <PackageReference Include="Grpc.AspNetCore.HealthChecks"/>
+    <PackageReference Include="Grpc.Net.ClientFactory"/>
+    <PackageReference Include="Grpc.StatusProto" />
+    <PackageReference Include="Hangfire.AspNetCore"/>
+    <PackageReference Include="Hangfire.Core"/>
+    <PackageReference Include="Hangfire.Dashboard.BasicAuthorization"/>
+    <PackageReference Include="Hangfire.HttpJob.Ext.Dashboard.BasicAuthorization"/>
+    <PackageReference Include="MediatR"/>
+    <PackageReference Include="HtmlSanitizer"/>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"/>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Static.Application\Static.Application.csproj" />
+    <ProjectReference Include="..\Static.Helper\Static.Helper.csproj" />
+    <ProjectReference Include="..\Static.Infrastructure\Static.Infrastructure.csproj" />
+    <ProjectReference Include="..\Static.OpenTelemetry\Static.OpenTelemetry.csproj" />
+    <ProjectReference Include="..\Static.QueryUtils\Static.QueryUtils.csproj" />
+    <ProjectReference Include="..\Static.Results\Static.Results.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\swagger\ui\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Json\permissionRole.json" />
+  </ItemGroup>
+</Project>
