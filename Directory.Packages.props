@@ -10,9 +10,9 @@
     <PackageVersion Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
     <PackageVersion Include="AutoMapper" Version="16.1.1" />
     <PackageVersion Include="AWSSDK.CloudFront" Version="4.0.10.4" />
-    <PackageVersion Include="AWSSDK.Core" Version="4.0.3.6" />
+    <PackageVersion Include="AWSSDK.Core" Version="4.0.102.14" />
     <PackageVersion Include="AWSSDK.Lambda" Version="4.0.12.1" />
-    <PackageVersion Include="AWSSDK.S3" Version="4.0.15.2" />
+    <PackageVersion Include="AWSSDK.S3" Version="4.0.104.8" />
     <PackageVersion Include="AWSSDK.SimpleNotificationService" Version="4.0.2.10" />
     <PackageVersion Include="AWSSDK.SQS" Version="4.0.2.8" />
     <PackageVersion Include="ClosedXML" Version="0.105.0" />
