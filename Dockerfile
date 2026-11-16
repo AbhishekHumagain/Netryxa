@@ -2,7 +2,7 @@
 # Stage 1 — build
 # Force linux/amd64: Grpc.Tools protoc binary is amd64-only.
 # ────────────────────────────────────────────────────────────────────────────
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:10.0 AS builder
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:11.0 AS builder
 
 WORKDIR /src
 
