@@ -57,7 +57,7 @@ RUN dotnet publish Static.API/Static.API.csproj \
 # ────────────────────────────────────────────────────────────────────────────
 # Stage 2 — runtime (lean image, no SDK)
 # ────────────────────────────────────────────────────────────────────────────
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:11.0 AS runtime
 
 # Install Python 3 for the code execution sandbox
 RUN apt-get update \
